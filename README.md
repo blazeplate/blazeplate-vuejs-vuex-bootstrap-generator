@@ -1,2 +1,2 @@
-# blazeplate-vuejs-vuex-bootstrap-generator
-Blazeplate generator for Vue.js, Vue Router, Vuex, &amp; Bootstrap 4
+# codotype-vuejs-vuex-bootstrap-generator
+Codotype generator for Vue.js, Vue Router, Vuex, & Bootstrap 4

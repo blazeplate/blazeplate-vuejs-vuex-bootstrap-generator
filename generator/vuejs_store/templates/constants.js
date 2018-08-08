@@ -1,0 +1,1 @@
+export const NEW_<%= schema.identifier.toUpperCase() %> = <%- newModel %>
