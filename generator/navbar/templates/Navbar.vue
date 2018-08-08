@@ -1,7 +1,7 @@
 <template>
   <b-navbar toggleable="md" type="dark" variant="dark" fixed="top">
     <b-navbar-brand href="#/">
-      <%=appSchema.label %>
+      <%= appSchema.label %>
     </b-navbar-brand>
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -9,14 +9,10 @@
 
       <!-- Navbar Links -->
       <b-navbar-nav class="mr-auto">
-
-        <% for (i in headerLinks) { %>
+        <%_ for (i in headerLinks) { _%>
+        <!-- TODO - replace hard-coded href with Vue-Router to: directive, or equivalent -->
         <b-nav-item href="<%= headerLinks[i].href %>"><%= headerLinks[i].text %></b-nav-item>
-        <% } %>
-
-        <!-- TODO - render this conditionally -->
-        <b-nav-item href="#/users">Users</b-nav-item>
-
+        <%_ } _%>
       </b-navbar-nav>
 
       <!-- User Dropdown -->
@@ -39,3 +35,42 @@
     </b-collapse>
   </b-navbar>
 </template>
+
+<!-- // // // //  -->
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+  name: 'Navbar',
+  computed: mapGetters({
+    isAuthenticated: 'auth/is_authenticated',
+    currentUser: 'auth/current_user'
+  }),
+  methods: mapActions({
+    logout: 'auth/logout'
+  })
+}
+</script>
+
+<!-- // // // //  -->
+
+<style lang="sass">
+
+  .navbar-brand
+    letter-spacing: .25rem !important
+    font-family: sans-serif
+    font-weight: 100
+    letter-spacing: 0.1rem
+
+    strong
+      font-weight: 400
+
+    img.logo
+      float: left
+      margin-right: 0.4rem
+      height: 2rem
+      display: flex
+
+</style>
+
