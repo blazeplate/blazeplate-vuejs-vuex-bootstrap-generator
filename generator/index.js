@@ -74,7 +74,6 @@ module.exports = class VueJsGenerator extends Generator {
         // await this.composeWith(VueRouter)
         // await this.composeWith(VueStore)
         // await this.composeWith(VueFormComponent)
-        // await this.composeWith(VueHomeContainer)
         // await this.composeWith(VueNewContainer)
         // await this.composeWith(VueEditContainer)
         // await this.composeWith(VueListContainer)
