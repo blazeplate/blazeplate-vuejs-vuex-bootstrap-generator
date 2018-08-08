@@ -1,6 +1,5 @@
 const _ = require('lodash')
 const Generator = require('../../util/generator')
-const classify = require('underscore.string/classify')
 
 // // // //
 

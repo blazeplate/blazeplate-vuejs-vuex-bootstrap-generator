@@ -1,7 +1,6 @@
 const { Generator, Helpers } = require('codotype-generator')
-const Base = require('./base')
 
-// const VueAppCore = require('./vuejs_app_core')
+const Base = require('./base')
 // const VueAppNavbar = require('./vuejs_app_navbar')
 // const VueAppRouter = require('./vuejs_app_router')
 // const VueAppStore = require('./vuejs_app_store')
@@ -68,7 +67,6 @@ module.exports = class VueJsGenerator extends Generator {
 
     async write () {
         await this.composeWith(Base)
-        // await this.composeWith(VueAppCore)
         // await this.composeWith(VueAppNavbar)
         // await this.composeWith(VueAppRouter)
         // await this.composeWith(VueAppStore)

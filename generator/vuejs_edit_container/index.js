@@ -1,6 +1,5 @@
 // Generator index file
-var Generator = require('../../util/generator');
-var classify = require('underscore.string/classify');
+const { Generator } = require('codotype-generator');
 
 // // // //
 
