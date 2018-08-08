@@ -1,6 +1,5 @@
-// User Containers
-import UserList from '@/containers/user_list'
-import UserShow from '@/containers/user_show'
+import UserList from './pages/list'
+import UserShow from './pages/show'
 
 const UserListRoute = {
   path: '/users',

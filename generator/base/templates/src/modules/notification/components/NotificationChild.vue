@@ -1,4 +1,3 @@
-
 <template>
   <div class="col-lg-12 text-center">
     <div role="alert" class="alert alert-dismissible fade show" :class="'alert-' + item.context">
@@ -19,13 +18,11 @@
 <!-- // // // //  -->
 
 <script>
-import store from '@/store'
-
 export default {
   props: ['item'],
   methods: {
-    dismiss: (id) => {
-      return store.commit('notification/remove', id)
+    dismiss (id) {
+      return this.$store.commit('notification/remove', id)
     }
   }
 }
