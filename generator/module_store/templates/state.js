@@ -6,7 +6,7 @@ export default {
   <%_ if (rel.type === 'OWNS_MANY') { _%>
   <%= rel.alias.identifier_plural %>: [],
   <%_ } else if (rel.type === 'BELONGS_TO') { _%>
-  <%= rel.alias.identifier %>: '',
+  <%= rel.alias.identifier %>: {},
   <%_ } _%>
   <%_ })_%>
   ...COLLECTION_STATE,

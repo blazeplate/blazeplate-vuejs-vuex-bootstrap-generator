@@ -7,6 +7,7 @@ const API_ROOT = '/api/<%= schema.identifier_plural %>'
 
 export default {
   <%_ schema.relations.forEach((rel) => { _%>
+  <%_ if (rel.type === 'OWNS_MANY') { _%>
   // OWNS MANY
   // GET /api/<%= schema.identifier_plural %>/:id/<%= rel.alias.identifier_plural %>
   <%= 'fetch' + rel.alias.class_name_plural %> ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
@@ -22,6 +23,23 @@ export default {
       throw err // TODO - better error handling
     })
   },
+  <%_ } else if (rel.type === 'BELONGS_TO') { _%>
+  // BELONGS TO
+  // GET /api/<%= schema.identifier_plural %>/:id/<%= rel.alias.identifier %>
+  <%= 'fetch' + rel.alias.class_name %> ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
+    commit('fetching', true)
+    $GET(API_ROOT + '/' + <%= schema.identifier %>Id + '/<%= rel.alias.identifier %>')
+    .then((<%= rel.alias.identifier %>) => {
+      commit('<%= rel.alias.identifier %>', <%= rel.alias.identifier %>)
+      commit('fetching', false)
+    })
+    .catch((err) => {
+      commit('fetching', false)
+      commit('notification/add', { message: 'Fetch error', context: 'danger', dismissible: true }, { root: true })
+      throw err // TODO - better error handling
+    })
+  },
+  <%_ } _%>
   <%_ }) _%>
 
   // GET /api/<%= schema.identifier_plural %>

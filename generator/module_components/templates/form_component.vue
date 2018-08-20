@@ -1,8 +1,6 @@
 <template>
   <div class='row'>
-  <%_ for (index in schema.attributes) { _%>
-  <%_ let attr = schema.attributes[index] _%>
-  <%_ if (attr.datatype === 'RELATION' && attr.datatypeOptions.relationType === 'OWNS_MANY') continue _%>
+  <%_ schema.attributes.forEach((attr) => { _%>
     <div class="col-lg-6">
       <div class="form-group">
         <label class='mb-0'>
@@ -24,22 +22,32 @@
         <input type="datetime-local" class="form-control" placeholder="<%= attr.label %>" v-model="model.<%=attr.identifier%>">
       <%_ } else if (attr.datatype === 'JSON') { _%>
         <textarea class="form-control" placeholder="<%= attr.label %>" @change="model.<%=attr.identifier%> = JSON.parse($event.target.value)">{{ JSON.stringify(model.<%=attr.identifier%>, null, 2) }}</textarea>
-      <%_ } else if (attr.datatype === 'RELATION') { _%>
+      <%_ } _%>
+      </div>
+    </div>
+    <%_ }) _%>
 
-      <%_ } if (attr.datatypeOptions.relationType === 'BELONGS_TO') { _%>
-        <select type="text" class="form-control" placeholder="<%= attr.label %>" v-model="model.<%=attr.identifier%>">
-          <option :value="<%=attr.datatypeOptions.schema_identifier%>._id" v-for="<%=attr.datatypeOptions.schema_identifier%> in <%= attr.datatypeOptions.schema_identifier_plural %>">
-            {{ <%= attr.datatypeOptions.schema_identifier %>.<%= attr.datatypeOptions.lead_attr %> }}
+    <%_ schema.relations.forEach((rel) => { _%>
+    <div class="col-lg-6">
+      <div class="form-group">
+        <label class='mb-0'>
+          <%= rel.alias.label %>
+          <% if (rel.required) { %><span class='text-danger'>*</span><% } %>
+        </label>
+        <%_ if (rel.type === 'BELONGS_TO') { _%>
+        <select type="text" class="form-control" placeholder="<%= rel.alias.label %>" v-model="model.<%=rel.alias.identifier%>_id">
+          <option :value="<%=rel.schema.identifier%>._id" v-for="<%= rel.alias.identifier %> in <%= rel.schema.identifier_plural %>">
+            {{ <%= rel.alias.identifier %>.<%= rel.related_lead_attribute %> }}
           </option>
         </select>
-      <%_ } else if (attr.datatypeOptions.relationType === 'HAS_MANY') { _%>
-        <select type="text" multiple class="form-control" placeholder="<%= attr.label %>" v-model="model.<%=attr.identifier%>">
-          <option :value="<%=attr.datatypeOptions.schema_identifier%>._id" v-for="<%=attr.datatypeOptions.schema_identifier%> in <%= attr.datatypeOptions.schema_identifier_plural %>">{{ <%= attr.datatypeOptions.schema_identifier %>.<%= attr.datatypeOptions.lead_attr %> }}</option>
+      <%_ } else if (rel.type === 'HAS_MANY') { _%>
+        <select type="text" multiple class="form-control" placeholder="<%= rel.alias.label %>" v-model="model.<%=rel.alias.identifier%>_ids">
+          <option :value="<%=rel.schema.identifier%>._id" v-for="<%=rel.schema.identifier%> in <%= rel.schema.identifier_plural %>">{{ <%= rel.schema.identifier %>.<%= rel.related_lead_attribute %> }}</option>
         </select>
       <%_ } _%>
       </div>
     </div>
-  <%_ } _%>
+    <%_ }) _%>
 
   </div>
 </template>
@@ -57,22 +65,16 @@ export default {
     RelationDropdown
   },
   created () {
-    <%_ for (index in schema.attributes) { _%>
-    <%_ let attr = schema.attributes[index] _%>
-    <%_ if (attr.datatype === 'RELATION') { _%>
-    this.$store.dispatch('<%= attr.datatypeOptions.schema_identifier %>/fetchCollection')
-    <%_ } _%>
-    <%_ } _%>
+    <%_ schema.relations.forEach((rel) => { _%>
+    this.$store.dispatch('<%= rel.schema.identifier %>/fetchCollection')
+    <%_ }) _%>
   },
   computed: {
-    <%_ for (index in schema.attributes) { _%>
-    <%_ let attr = schema.attributes[index] _%>
-    <%_ if (attr.datatype === 'RELATION') { _%>
-    <%=attr.datatypeOptions.schema_identifier_plural%> () {
-      return this.$store.getters['<%= attr.datatypeOptions.schema_identifier %>/collection']
+    <%_ schema.relations.forEach((rel) => { _%>
+    <%= rel.schema.identifier_plural %> () {
+      return this.$store.getters['<%= rel.schema.identifier %>/collection']
     },
-    <%_ } _%>
-    <%_ } _%>
+    <%_ }) _%>
   }
 }
 </script>
