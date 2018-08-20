@@ -43,7 +43,7 @@
       </tr>
 
       <tr v-for="m in collection" :key="m._id">
-      <%_ widget.schema.attributes.forEach((attr) => { _%>
+      <%_ widget.schema.attributes.forEach((attr, index) => { _%>
         <%_ if (attr.unique) { _%>
         <td>
           <a :href=" '#/<%= widget.schema.identifier_plural %>/' + m._id ">
