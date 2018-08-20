@@ -1,4 +1,4 @@
-const Generator = require('blazeplate_generator/generators/util/generator')
+const { Generator } = require('codotype-generator')
 
 // // // //
 
