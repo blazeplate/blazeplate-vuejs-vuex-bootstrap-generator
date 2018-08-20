@@ -4,12 +4,17 @@ import { COLLECTION_MUTATIONS, MODEL_MUTATIONS } from '@/store/lib/mixins'
 
 // <%= schema.label %> Module Mutations
 export default {
-  <%_ for (index in schema.relations) { _%>
-  <%_ let rel = schema.relations[index] _%>
-  <%= rel.state %> (state, <%= rel.state %>) {
-    state.<%= rel.state %> = <%= rel.state %>
+  <%_ schema.relations.forEach((rel) => { _%>
+  <%_ if (rel.type === 'OWNS_MANY') { _%>
+  <%= rel.alias.identifier_plural %> (state, <%= rel.alias.identifier_plural %>) {
+    state.<%= rel.alias.identifier_plural %> = <%= rel.alias.identifier_plural %>
+  },
+  <%_ } else if (rel.type === 'BELONGS_TO') { _%>
+  <%= rel.alias.identifier %> (state, <%= rel.alias.identifier %>) {
+    state.<%= rel.alias.identifier %> = <%= rel.alias.identifier %>
   },
   <%_ } _%>
+  <%_ })_%>
   ...COLLECTION_MUTATIONS,
   ...MODEL_MUTATIONS,
   resetNewModel (state) {

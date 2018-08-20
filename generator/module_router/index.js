@@ -3,25 +3,22 @@ const { Generator } = require('codotype-generator');
 
 // // // //
 
-module.exports = class VueJsRouter extends Generator {
-
-  // writing to file
+module.exports = class ModuleRouter extends Generator {
   async write() {
 
-    // Iterates over each schema in the this.options.build.app.schemas array
-    for (var i = this.options.build.app.schemas.length - 1; i >= 0; i--) {
+    let vueRoot = this.options.build.dest.client.root
 
-      // Isolates the individual schema
-      let schema = this.options.build.app.schemas[i]
+    // Iterates over each schema in the this.options.build.app.schemas array
+    this.options.build.app.schemas.forEach(async (schema) => {
 
       // client/src/routers/resource.js
       await this.copyTemplate(
         this.templatePath(__dirname, 'router.js'),
-        this.destinationPath(this.options.build.dest.vue.src + 'routers/' + schema.identifier + '.js'),
+        this.destinationPath(vueRoot + '/src/modules/' + schema.identifier + '/router.js'),
         { schema: schema }
       )
 
-    } // END LOOP
+    })
 
   }
 

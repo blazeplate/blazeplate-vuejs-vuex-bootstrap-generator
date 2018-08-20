@@ -4,9 +4,7 @@
 
     <!-- Table Header -->
     <thead>
-    <%_ for (index in widget.schema.attributes) { _%>
-    <%_ let attr = widget.schema.attributes[index] _%>
-    <%_ if (attr.datatype === 'RELATION' && attr.datatypeOptions.relationType === 'OWNS_MANY') continue _%>
+      <%_ widget.schema.attributes.forEach((attr) => { _%>
       <%_ if (attr.help) { _%>
       <th>
         <%= attr.label %>
@@ -15,7 +13,12 @@
       <%_ } else { _%>
       <th><%= attr.label %></th>
       <%_ } _%>
-    <%_ } _%>
+      <%_ }) _%>
+      <%_ widget.schema.relations.forEach((rel) => { _%>
+      <%_ if (rel.type === 'BELONGS_TO') { _%>
+      <th><%= rel.alias.label %></th>
+      <%_ } _%>
+      <%_ }) _%>
       <th></th>
     </thead>
 
@@ -24,19 +27,23 @@
 
       <!-- Empty Table Row -->
       <tr class='tr-warning' v-if="!collection[0]">
-        <%_ for (index in widget.schema.attributes) { _%>
+        <%_ widget.schema.attributes.forEach((attr, index) => { _%>
         <%_ if (index === '0') { _%>
         <td>Empty</td>
         <%_ } else { _%>
         <td></td>
         <%_ } _%>
+        <%_ }) _%>
+        <%_ widget.schema.relations.forEach((rel) => { _%>
+        <%_ if (rel.type === 'BELONGS_TO') { _%>
+        <td></th>
         <%_ } _%>
+        <%_ }) _%>
         <td></td>
       </tr>
 
       <tr v-for="m in collection" :key="m._id">
-      <%_ for (index in widget.schema.attributes) { _%>
-      <%_ let attr = widget.schema.attributes[index] _%>
+      <%_ widget.schema.attributes.forEach((attr) => { _%>
         <%_ if (attr.unique) { _%>
         <td>
           <a :href=" '#/<%= widget.schema.identifier_plural %>/' + m._id ">
@@ -57,7 +64,16 @@
         <%_ } else { _%>
         <td>{{m.<%= widget.schema.attributes[index].identifier %>}}</td>
         <%_ } _%>
+      <%_ }) _%>
+      <%_ widget.schema.relations.forEach((rel) => { _%>
+      <%_ if (rel.type === 'BELONGS_TO') { _%>
+        <td>
+          <router-link :to="'/<%= rel.schema.identifier_plural %>/' + m.<%= rel.alias.identifier + '_id' %>">
+            {{m.<%= rel.alias.identifier %>.<%= rel.related_lead_attribute %>}}
+          </router-link>
+        </td>
       <%_ } _%>
+      <%_ }) _%>
         <!-- Edit <%= widget.schema.label %>-->
         <td class='text-right'>
           <a class="btn btn-sm btn-outline-primary" :href=" '#/<%= widget.schema.identifier_plural %>/' + m._id">
@@ -76,16 +92,9 @@
           <b-modal :id="'modal_' + m._id"
             :title="'Destroy <%= widget.schema.label %>?'"
             @ok="onConfirmDestroy(m)"
-            header-bg-variant='dark'
-            header-text-variant='light'
-            body-bg-variant='dark'
-            body-text-variant='light'
-            footer-bg-variant='danger'
-            footer-text-variant='light'
             ok-variant='danger'
             ok-title='DESTROY'
             cancel-title='Cancel'
-            cancel-variant='dark'
           >
             <p class="text-left">Are you sure you want to destroy this <%= widget.schema.label %>?</p>
           </b-modal>

@@ -58,12 +58,12 @@ export default {
     return {
       links: [
         {
-          title: 'Blazeplate Docs',
+          title: 'Codotype Docs',
           icon: 'ion-document-text',
-          url: 'https://github.com/blazeplate/blazeplate'
+          url: 'https://github.com/Codotype/Codotype'
         },
         {
-          title: 'Blazeplate Github',
+          title: 'Codotype Github',
           icon: 'ion-social-github',
           url: 'https://github.com/OnsenUI/OnsenUI'
         },

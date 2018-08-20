@@ -8,7 +8,7 @@
 
     <hr>
 
-    <<%= schema.label %>Form :model="model" v-if="model._id && !fetching" />
+    <<%= schema.class_name %>Form :model="model" v-if="model._id && !fetching" />
     <Loading v-else />
 
     <div class="row">
@@ -35,7 +35,7 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import Loading from '@/components/Loading'
-import <%= schema.class_name %>Form from '@/components/<%= schema.class_name %>Form'
+import <%= schema.class_name %>Form from '@/modules/<%= schema.identifier %>/components/<%= schema.class_name %>Form'
 
 export default {
   props: ['id'],

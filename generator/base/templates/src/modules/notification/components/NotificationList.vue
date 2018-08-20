@@ -9,7 +9,7 @@
 <!-- // // // //  -->
 
 <script>
-import NotificationChild from './components/NotificationChild'
+import NotificationChild from './NotificationChild'
 
 export default {
   computed: {

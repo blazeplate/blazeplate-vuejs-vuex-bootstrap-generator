@@ -33,7 +33,7 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-import <%= schema.label %>Form from '@/components/<%= schema.label %>Form'
+import <%= schema.class_name %>Form from '@/modules/<%= schema.identifier %>/components/<%= schema.class_name %>Form'
 
 export default {
   name: '<%= schema.class_name %>New',
@@ -41,7 +41,7 @@ export default {
     title: '<%= schema.label %> - New'
   },
   components: {
-    <%= schema.label %>Form
+    <%= schema.class_name %>Form
   },
   created () {
     this.resetNewModel()

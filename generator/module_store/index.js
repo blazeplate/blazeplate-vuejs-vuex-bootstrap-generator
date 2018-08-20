@@ -3,17 +3,14 @@ const { Generator } = require('codotype-generator');
 
 // // // //
 
-module.exports = class VueJsStore extends Generator {
+module.exports = class ModuleStore extends Generator {
 
   async write() {
 
-    let vueSrc = this.options.build.dest.vue.src
+    let vueRoot = this.options.build.dest.client.root
 
     // Iterates over each schema in the this.options.build.app.schemas array
-    for (var i = this.options.build.app.schemas.length - 1; i >= 0; i--) {
-
-      // Isolates the individual schema
-      let schema = this.options.build.app.schemas[i]
+    this.options.build.app.schemas.forEach(async (schema) => {
 
       let newModel = {}
       _.each(schema.attributes, (attr) => {
@@ -28,27 +25,28 @@ module.exports = class VueJsStore extends Generator {
         }
       })
 
-      // Ensures presence of requisite directory
-      await this.ensureDir(vueSrc + 'store/' + schema.identifier)
+      // Ensures presence of requisite directory module + store directory
+      await this.ensureDir(vueRoot + 'src/modules/' + schema.identifier)
+      await this.ensureDir(vueRoot + 'src/modules/' + schema.identifier + '/store')
 
       // client/src/store/resource/actions.js
       await this.copyTemplate(
         this.templatePath(__dirname, 'actions.js'),
-        this.destinationPath(vueSrc + 'store/' + schema.identifier + '/actions.js'),
+        this.destinationPath(vueRoot + 'src/modules/' + schema.identifier + '/store/actions.js'),
         { schema: schema }
       );
 
       // client/src/store/resource/getters.js
       await this.copyTemplate(
         this.templatePath(__dirname, 'getters.js'),
-        this.destinationPath(vueSrc + 'store/' + schema.identifier + '/getters.js'),
+        this.destinationPath(vueRoot + 'src/modules/' + schema.identifier + '/store/getters.js'),
         { schema: schema }
       );
 
       // client/src/store/resource/index.js
       await this.copyTemplate(
         this.templatePath(__dirname, 'index.js'),
-        this.destinationPath(vueSrc + 'store/' + schema.identifier + '/index.js'),
+        this.destinationPath(vueRoot + 'src/modules/' + schema.identifier + '/store/index.js'),
         { schema: schema }
       );
 
@@ -56,25 +54,25 @@ module.exports = class VueJsStore extends Generator {
       // TODO - how can we get newModel to print as a JavaScript object, rather than stringified JSON?
       await this.copyTemplate(
         this.templatePath(__dirname, 'constants.js'),
-        this.destinationPath(vueSrc + 'store/' + schema.identifier + '/constants.js'),
+        this.destinationPath(vueRoot + 'src/modules/' + schema.identifier + '/store/constants.js'),
         { schema: schema, newModel: JSON.stringify(newModel, null, 2) }
       );
 
       // client/src/store/resource/mutations.js
       await this.copyTemplate(
         this.templatePath(__dirname, 'mutations.js'),
-        this.destinationPath(vueSrc + 'store/' + schema.identifier + '/mutations.js'),
+        this.destinationPath(vueRoot + 'src/modules/' + schema.identifier + '/store/mutations.js'),
         { schema: schema }
       );
 
       // client/src/store/resource/state.js
       await this.copyTemplate(
         this.templatePath(__dirname, 'state.js'),
-        this.destinationPath(vueSrc + 'store/' + schema.identifier + '/state.js'),
+        this.destinationPath(vueRoot + 'src/modules/' + schema.identifier + '/store/state.js'),
         { schema: schema }
       );
 
-    } // END LOOP
+    })
 
   }
 

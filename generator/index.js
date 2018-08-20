@@ -1,19 +1,14 @@
 const { Generator, Helpers } = require('codotype-generator')
 
+// const menus = require('./menus')
 const Base = require('./base')
 const Navbar = require('./navbar')
-// const VueAppRouter = require('./vuejs_app_router')
-// const VueAppStore = require('./vuejs_app_store')
-// const VueAuth = require('./vuejs_auth')
-// const VueRouter = require('./vuejs_router')
-// const VueStore = require('./vuejs_store')
-// const VueFormComponent = require('./vuejs_form_component')
-// const VueHomeContainer = require('./vuejs_home_container')
-// const VueNewContainer = require('./vuejs_new_container')
-// const VueEditContainer = require('./vuejs_edit_container')
-// const VueListContainer = require('./vuejs_list_container')
-// const VueShowContainer = require('./vuejs_show_container')
-// const VueWidgetComponent = require('./vuejs_widget_component')
+const Router = require('./router')
+const Store = require('./store')
+const ModuleStore = require('./module_store')
+const ModuleRouter = require('./module_router')
+const ModulePages = require('./module_pages')
+const ModuleComponents = require('./module_components')
 
 module.exports = class VueJsGenerator extends Generator {
 
@@ -65,19 +60,16 @@ module.exports = class VueJsGenerator extends Generator {
 
     }
 
+    // TODO - update the write method to accept commonly used args
+    // i.e. `async write ({ app, models, options }) { ... })`
     async write () {
-        await this.composeWith(Base)
-        await this.composeWith(Navbar)
-        // await this.composeWith(VueAppRouter)
-        // await this.composeWith(VueAppStore)
-        // await this.composeWith(VueAuth)
-        // await this.composeWith(VueRouter)
-        // await this.composeWith(VueStore)
-        // await this.composeWith(VueFormComponent)
-        // await this.composeWith(VueNewContainer)
-        // await this.composeWith(VueEditContainer)
-        // await this.composeWith(VueListContainer)
-        // await this.composeWith(VueShowContainer)
-        // await this.composeWith(VueWidgetComponent)
+      await this.composeWith(Base)
+      await this.composeWith(Navbar)
+      await this.composeWith(Store)
+      await this.composeWith(Router)
+      await this.composeWith(ModuleStore)
+      await this.composeWith(ModuleRouter)
+      await this.composeWith(ModulePages)
+      await this.composeWith(ModuleComponents)
     }
 }

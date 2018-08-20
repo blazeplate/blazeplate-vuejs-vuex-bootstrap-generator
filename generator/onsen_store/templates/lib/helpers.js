@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 // REST verbs
 const GET = 'get'
 const PUT = 'put'
@@ -12,7 +14,7 @@ const REQUEST_HEADERS = {
 // Defines request
 function buildRequest (verb, options) {
   // Defines request headers
-  let requestHeaders = { ...REQUEST_HEADERS }
+  let requestHeaders = _.clone(REQUEST_HEADERS)
 
   // Adds `Authorization` header to request if token parameter is defined
   if (options.token) requestHeaders['Authorization'] = `JWT ${options.token}`

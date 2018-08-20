@@ -3,28 +3,49 @@ const { Generator } = require('codotype-generator');
 
 // // // //
 
-module.exports = class VueJsEditContainer extends Generator {
+module.exports = class ModulePages extends Generator {
 
   async write() {
 
-    let vueSrc = this.options.build.dest.client + 'src/modules/'
+    let vueSrc = this.options.build.dest.client.root + 'src/modules/'
 
     // Iterates over each schema in the this.options.build.app.schemas array
-    for (var i = this.options.build.app.schemas.length - 1; i >= 0; i--) {
+    this.options.build.app.schemas.forEach(async (schema) => {
 
-      // Isolates the individual schema
-      let schema = this.options.build.app.schemas[i]
+      await this.ensureDir(vueSrc + schema.identifier + '/pages/list')
+      await this.ensureDir(vueSrc + schema.identifier + '/pages/new')
+      await this.ensureDir(vueSrc + schema.identifier + '/pages/edit')
+      await this.ensureDir(vueSrc + schema.identifier + '/pages/show')
 
-      await this.ensureDir(vueSrc + 'containers/' + schema.identifier + '_edit')
+      // client/src/modules/resource/pages/list/index.vue
+      await this.copyTemplate(
+        this.templatePath(__dirname, 'list_page.vue'),
+        this.destinationPath(vueSrc + schema.identifier + '/pages/list/index.vue'),
+        { schema }
+      )
 
-      // client/src/containers/resource_edit/index.vue
+      // client/src/modules/resource/pages/new/index.vue
+      await this.copyTemplate(
+        this.templatePath(__dirname, 'new_page.vue'),
+        this.destinationPath(vueSrc + schema.identifier + '/pages/new/index.vue'),
+        { schema }
+      )
+
+      // client/src/modules/resource/pages/edit/index.vue
       await this.copyTemplate(
         this.templatePath(__dirname, 'edit_page.vue'),
         this.destinationPath(vueSrc + schema.identifier + '/pages/edit/index.vue'),
         { schema }
       )
 
-    } // END LOOP
+      // client/src/modules/resource/pages/show/index.vue
+      await this.copyTemplate(
+        this.templatePath(__dirname, 'show_page.vue'),
+        this.destinationPath(vueSrc + schema.identifier + '/pages/show/index.vue'),
+        { schema }
+      )
+
+    })
 
   }
 

@@ -1,8 +1,8 @@
 // <%= schema.class_name %> Containers
-import <%= schema.class_name %>List from '@/containers/<%= schema.identifier %>_list'
-import <%= schema.class_name %>New from '@/containers/<%= schema.identifier %>_new'
-import <%= schema.class_name %>Show from '@/containers/<%= schema.identifier %>_show'
-import <%= schema.class_name %>Edit from '@/containers/<%= schema.identifier %>_edit'
+import <%= schema.class_name %>List from './pages/list'
+import <%= schema.class_name %>New from './pages/new'
+import <%= schema.class_name %>Show from './pages/show'
+import <%= schema.class_name %>Edit from './pages/edit'
 
 const <%= schema.class_name %>ListRoute = {
   path: '/<%= schema.identifier_plural %>',

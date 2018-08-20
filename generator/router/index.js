@@ -3,21 +3,20 @@ const { Generator } = require('codotype-generator')
 
 // // // //
 
-module.exports = class VueJsAppRouter extends Generator {
+module.exports = class AppRouter extends Generator {
   async write () {
 
     let app = this.options.build.app
 
     // Destination helpers & constants
-    let destinationRoot = this.options.build.dest.root
-    let vueSrc = this.options.build.dest.vue.src
+    let vueSrc = this.options.build.dest.client.root + 'src/'
 
     // Variables sent to the template
     let routeImports = []
     let routeModules = []
 
     function buildImport (s) {
-      routeImports.push(`import ${ s.class_name }Routes from './${ s.identifier }'`)
+      routeImports.push(`import ${ s.class_name }Routes from '@/modules/${ s.identifier }/router'`)
     }
 
     function buildModule (s) {
@@ -26,7 +25,7 @@ module.exports = class VueJsAppRouter extends Generator {
 
     // Defaults
     const defaultModules = [
-      { class_name: 'Main', identifier: 'main' },
+      { class_name: 'Home', identifier: 'home' },
       { class_name: 'Auth', identifier: 'auth' },
       { class_name: 'User', identifier: 'user' }
     ]
@@ -50,7 +49,11 @@ module.exports = class VueJsAppRouter extends Generator {
     await this.copyTemplate(
       this.templatePath(__dirname, 'router.js'),
       this.destinationPath(vueSrc + 'routers/index.js'),
-      { appSchema: app, routeImports: routeImports.join("\n"), routeModules: routeModules.join(",\n    ")  }
+      {
+        appSchema: app,
+        routeImports: routeImports.join("\n"),
+        routeModules: routeModules.join(",\n    ")
+      }
     );
 
   }
