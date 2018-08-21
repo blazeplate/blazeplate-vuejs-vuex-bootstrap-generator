@@ -1,5 +1,6 @@
 import router from '@/routers'
-import { $GET, $POST, $PUT, $DEL } from '@/store/lib/helpers'
+import axios from 'axios'
+import { $POST, $PUT, $DEL } from '@/store/lib/helpers'
 
 const API_ROOT = '/api/<%= schema.identifier_plural %>'
 
@@ -12,9 +13,19 @@ export default {
   // GET /api/<%= schema.identifier_plural %>/:id/<%= rel.alias.identifier_plural %>
   <%= 'fetch' + rel.alias.class_name_plural %> ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
     commit('fetching', true)
-    $GET(API_ROOT + '/' + <%= schema.identifier %>Id + '/<%= rel.alias.identifier_plural %>')
-    .then((<%= rel.alias.identifier_plural %>) => {
-      commit('<%= rel.alias.identifier_plural %>', <%= rel.alias.identifier_plural %>)
+
+    axios.get(API_ROOT + '/' + <%= schema.identifier %>Id + '/<%= rel.alias.identifier_plural %>', {
+      // headers: {
+      //   authorization: rootGetters['auth/token']
+      // },
+      // params: {
+      //   search: state.filter,
+      //   page: state.currentPage,
+      //   per_page: state.pageSize
+      // }
+    })
+    .then(({ data }) => {
+      commit('<%= rel.alias.identifier_plural %>', data)
       commit('fetching', false)
     })
     .catch((err) => {
@@ -28,9 +39,10 @@ export default {
   // GET /api/<%= schema.identifier_plural %>/:id/<%= rel.alias.identifier %>
   <%= 'fetch' + rel.alias.class_name %> ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
     commit('fetching', true)
-    $GET(API_ROOT + '/' + <%= schema.identifier %>Id + '/<%= rel.alias.identifier %>')
-    .then((<%= rel.alias.identifier %>) => {
-      commit('<%= rel.alias.identifier %>', <%= rel.alias.identifier %>)
+    axios.get(API_ROOT + '/' + <%= schema.identifier %>Id + '/<%= rel.alias.identifier %>', {
+    })
+    .then(({ data }) => {
+      commit('<%= rel.alias.identifier %>', data)
       commit('fetching', false)
     })
     .catch((err) => {
@@ -45,9 +57,9 @@ export default {
   // GET /api/<%= schema.identifier_plural %>
   fetchCollection ({ state, commit, dispatch }) {
     commit('fetching', true)
-    $GET(API_ROOT)
-    .then((<%= schema.identifier_plural %>) => {
-      commit('collection', <%= schema.identifier_plural %>)
+    axios.get(API_ROOT)
+    .then(({ data }) => {
+      commit('collection', data)
       commit('fetching', false)
     })
     .catch((err) => {
@@ -59,9 +71,13 @@ export default {
   // GET /api/<%= schema.identifier_plural %>/:id
   fetchModel ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
     commit('fetching', true)
-    $GET(`${API_ROOT}/${<%= schema.identifier %>Id}`)
-    .then((<%= schema.identifier %>) => {
-      commit('model', <%= schema.identifier %>)
+    axios.get(`${API_ROOT}/${<%= schema.identifier %>Id}`, {
+      // headers: {
+      //   authorization: rootGetters['auth/token']
+      // }
+    })
+    .then(({ data }) => {
+      commit('model', data)
       commit('fetching', false)
     })
     .catch((err) => {
