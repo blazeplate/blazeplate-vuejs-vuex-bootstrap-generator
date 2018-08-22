@@ -4,11 +4,7 @@ const { Generator } = require('codotype-generator')
 // // // //
 
 module.exports = class VueJsNavbar extends Generator {
-  // TODO - remove hard-coded resource schema
-  async write () {
-
-    let app = this.options.build.app
-    let destinationRoot = this.options.build.dest.root
+  async write ({ app }) {
 
     let headerLinks = []
 
@@ -20,11 +16,10 @@ module.exports = class VueJsNavbar extends Generator {
     _.each(app.schemas, (s) => { buildHeaderLink(s) })
 
     await this.copyTemplate(
-      this.templatePath(__dirname, 'Navbar.vue'),
-      this.destinationPath(this.options.build.dest.client.root + 'src/components/Navbar.vue'),
-      { appSchema: app, headerLinks: headerLinks }
+      this.templatePath('Navbar.vue'),
+      this.destinationPath('src/components/Navbar.vue'),
+      { headerLinks: headerLinks }
     );
-
   }
 
 };

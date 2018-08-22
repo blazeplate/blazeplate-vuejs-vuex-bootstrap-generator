@@ -5,8 +5,7 @@ const { Generator } = require('codotype-generator')
 
 module.exports = class AppStore extends Generator {
 
-  async write() {
-    let app = this.options.build.app
+  async write({ app }) {
 
     // client/src/store/index.js
     // TODO - move into separate generator class definition
@@ -16,14 +15,14 @@ module.exports = class AppStore extends Generator {
     })
 
     await this.copyTemplate(
-      this.templatePath(__dirname, 'index.js'),
-      this.destinationPath(this.options.build.dest.client.root + '/src/store/index.js'),
-      { appSchema: app, storeModules: storeModules.join(",\n    ")  } // TODO - constantize indentation size?
+      this.templatePath('index.js'),
+      this.destinationPath('src/store/index.js'),
+      { storeModules: storeModules.join(",\n    ") }
     );
 
     await this.copyDir(
-      this.templatePath(__dirname, 'lib'),
-      this.destinationPath(this.options.build.dest.client.root + '/src/store/lib')
+      this.templatePath('lib'),
+      this.destinationPath('src/store/lib')
     );
 
   }

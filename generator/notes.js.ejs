@@ -1,0 +1,39 @@
+<%= rel.schema.label %>
+<%= rel.schema.label_plural %>
+<%= rel.schema.identifier %>
+<%= rel.schema.identifier_plural %>
+<%= rel.schema.class_name %>
+<%= rel.schema.class_name_plural %>
+
+<%= rel.alias.label %>
+<%= rel.alias.label_plural %>
+<%= rel.alias.identifier %>
+<%= rel.alias.identifier_plural %>
+<%= rel.alias.class_name %>
+<%= rel.alias.class_name_plural %>
+
+<%_ related_schema.attributes.forEach((attr) => { _%>
+<%= attr.label %>
+<%= attr.identifier %>
+<%= attr.datatype %>
+<%_ }) _%>
+
+<%_ related_schema.relations.forEach((r) => { _%>
+<%= r.type %>
+
+<%= r.schema.label %>
+<%= r.schema.label_plural %>
+<%= r.schema.identifier %>
+<%= r.schema.identifier_plural %>
+<%= r.schema.class_name %>
+<%= r.schema.class_name_plural %>
+
+<%= r.alias.label %>
+<%= r.alias.label_plural %>
+<%= r.alias.identifier %>
+<%= r.alias.identifier_plural %>
+<%= r.alias.class_name %>
+<%= r.alias.class_name_plural %>
+<%_ }) _%>
+
+<%= rel.related_schema_id %>
