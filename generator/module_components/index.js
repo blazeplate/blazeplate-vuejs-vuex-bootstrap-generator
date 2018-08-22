@@ -11,19 +11,7 @@ module.exports = class ModuleComponents extends Generator {
     // Iterates over each schema in the app.schemas array
     app.schemas.forEach(async (schema) => {
 
-      // Options sent to each Widget component
-      const listWidget = {
-        name: `${schema.class_name}ListWidget`,
-        type: 'WIDGET_TYPE_LIST',
-        schema: schema,
-      }
-
-      const showWidget = {
-        name: `${schema.class_name}ShowWidget`,
-        type: 'WIDGET_TYPE_SHOW',
-        schema: schema,
-      }
-
+      // Destination for module / components directory
       const moduleComponentsDest = 'src/modules/' + schema.identifier + '/components/'
 
       // Ensures module components directory
@@ -39,14 +27,14 @@ module.exports = class ModuleComponents extends Generator {
       // client/src/modules/resource/components/ResourceShowWidget.vue
       await this.copyTemplate(
         this.templatePath('list-component.vue'),
-        this.destinationPath(moduleComponentsDest + 'ListWidget.vue'),
+        this.destinationPath(moduleComponentsDest + schema.class_name + 'ListWidget.vue'),
         { schema }
       );
       // client/src/modules/resource/components/ResourceShowWidget.vue
       // client/src/components/resource_ListWidget.vue
       await this.copyTemplate(
         this.templatePath('detail-component.vue'),
-        this.destinationPath(moduleComponentsDest + 'ShowWidget.vue'),
+        this.destinationPath(moduleComponentsDest + schema.class_name + 'ShowWidget.vue'),
         { schema }
       );
 

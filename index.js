@@ -1,6 +1,7 @@
 const Codotype = require('codotype-generator')
 
-const app = require('codotype-generator/examples/todo-list.json')
+// const app = require('codotype-generator/examples/todo-list.json')
+const app = require('codotype-generator/examples/library.json')
 
 const build = {
   stages: [{
