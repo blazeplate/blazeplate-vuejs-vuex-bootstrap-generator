@@ -4,12 +4,7 @@ const { Generator } = require('codotype-generator')
 // // // //
 
 module.exports = class AppRouter extends Generator {
-  async write () {
-
-    let app = this.options.build.app
-
-    // Destination helpers & constants
-    let vueSrc = this.options.build.dest.client.root + 'src/'
+  async write ({ app }) {
 
     // Variables sent to the template
     let routeImports = []
@@ -47,10 +42,9 @@ module.exports = class AppRouter extends Generator {
     })
 
     await this.copyTemplate(
-      this.templatePath(__dirname, 'router.js'),
-      this.destinationPath(vueSrc + 'routers/index.js'),
+      this.templatePath('router.js'),
+      this.destinationPath('src/routers/index.js'),
       {
-        appSchema: app,
         routeImports: routeImports.join("\n"),
         routeModules: routeModules.join(",\n    ")
       }

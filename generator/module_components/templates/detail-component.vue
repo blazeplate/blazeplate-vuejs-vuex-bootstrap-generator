@@ -5,7 +5,7 @@
 
       <!-- Bootstrap Modal Component -->
       <b-modal :id="'destroyModal'"
-        :title="'Destroy <%= widget.schema.label %>?'"
+        :title="'Destroy <%= schema.label %>?'"
         @ok="onConfirmDestroy(model)"
         header-bg-variant='dark'
         header-text-variant='light'
@@ -18,19 +18,19 @@
         cancel-title='Cancel'
         cancel-variant='dark'
       >
-        <p class="text-left">Are you sure you want to destroy this <%= widget.schema.label %>?</p>
+        <p class="text-left">Are you sure you want to destroy this <%= schema.label %>?</p>
       </b-modal>
 
       <div class="row">
         <div class="col-sm-8">
           <h2>
-            {{ header || '<%= widget.schema.label %> Detail' }}
+            {{ header || '<%= schema.label %> Detail' }}
           </h2>
         </div>
         <div class="col-sm-4 text-right">
 
           <!-- Edit -->
-          <a class="btn btn-outline-warning btn-sm" :href="'#/<%= widget.schema.identifier_plural %>/' + model._id + '/edit'">
+          <a class="btn btn-outline-warning btn-sm" :href="'#/<%= schema.identifier_plural %>/' + model._id + '/edit'">
             <i class="fa fa-fw fa-pencil"></i>
           </a>
 
@@ -46,8 +46,8 @@
 
         <!-- Table Header -->
         <tbody>
-        <%_ for (index in widget.schema.attributes) { _%>
-        <%_ let attr = widget.schema.attributes[index] _%>
+        <%_ for (index in schema.attributes) { _%>
+        <%_ let attr = schema.attributes[index] _%>
         <%_ if (attr.datatype !== 'RELATION') { _%>
           <tr>
             <td>
@@ -76,12 +76,12 @@ import Loading from '@/components/Loading'
 
 export default {
   props: ['id', 'model', 'fetching', 'header'],
-  name: '<%= widget.name %>',
+  name: '<%= schema.class_name %>ShowWidget',
   components: {
     Loading
   },
   methods: mapActions({
-    onConfirmDestroy: '<%= widget.schema.identifier %>/deleteModel'
+    onConfirmDestroy: '<%= schema.identifier %>/deleteModel'
   })
 }
 </script>

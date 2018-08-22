@@ -4,7 +4,7 @@
 
     <!-- Table Header -->
     <thead>
-      <%_ widget.schema.attributes.forEach((attr) => { _%>
+      <%_ schema.attributes.forEach((attr) => { _%>
       <%_ if (attr.help) { _%>
       <th>
         <%= attr.label %>
@@ -14,7 +14,7 @@
       <th><%= attr.label %></th>
       <%_ } _%>
       <%_ }) _%>
-      <%_ widget.schema.relations.forEach((rel) => { _%>
+      <%_ schema.relations.forEach((rel) => { _%>
       <%_ if (rel.type === 'BELONGS_TO') { _%>
       <th><%= rel.alias.label %></th>
       <%_ } _%>
@@ -27,14 +27,14 @@
 
       <!-- Empty Table Row -->
       <tr class='tr-warning' v-if="!collection[0]">
-        <%_ widget.schema.attributes.forEach((attr, index) => { _%>
+        <%_ schema.attributes.forEach((attr, index) => { _%>
         <%_ if (index === '0') { _%>
         <td>Empty</td>
         <%_ } else { _%>
         <td></td>
         <%_ } _%>
         <%_ }) _%>
-        <%_ widget.schema.relations.forEach((rel) => { _%>
+        <%_ schema.relations.forEach((rel) => { _%>
         <%_ if (rel.type === 'BELONGS_TO') { _%>
         <td></th>
         <%_ } _%>
@@ -43,10 +43,10 @@
       </tr>
 
       <tr v-for="m in collection" :key="m._id">
-      <%_ widget.schema.attributes.forEach((attr, index) => { _%>
+      <%_ schema.attributes.forEach((attr, index) => { _%>
         <%_ if (attr.unique) { _%>
         <td>
-          <a :href=" '#/<%= widget.schema.identifier_plural %>/' + m._id ">
+          <a :href=" '#/<%= schema.identifier_plural %>/' + m._id ">
             {{ m.<%=attr.identifier%> }}
           </a>
         </td>
@@ -62,10 +62,10 @@
           {{ m.<%=attr.identifier%>.length }}
         </td>
         <%_ } else { _%>
-        <td>{{m.<%= widget.schema.attributes[index].identifier %>}}</td>
+        <td>{{m.<%= schema.attributes[index].identifier %>}}</td>
         <%_ } _%>
       <%_ }) _%>
-      <%_ widget.schema.relations.forEach((rel) => { _%>
+      <%_ schema.relations.forEach((rel) => { _%>
       <%_ if (rel.type === 'BELONGS_TO') { _%>
         <td>
           <router-link :to="'/<%= rel.schema.identifier_plural %>/' + m.<%= rel.alias.identifier + '_id' %>">
@@ -74,13 +74,13 @@
         </td>
       <%_ } _%>
       <%_ }) _%>
-        <!-- Edit <%= widget.schema.label %>-->
+        <!-- Edit <%= schema.label %>-->
         <td class='text-right'>
-          <a class="btn btn-sm btn-outline-primary" :href=" '#/<%= widget.schema.identifier_plural %>/' + m._id">
+          <a class="btn btn-sm btn-outline-primary" :href=" '#/<%= schema.identifier_plural %>/' + m._id">
             <i class="fa fa-fw fa-eye"></i>
           </a>
 
-          <a class="btn btn-sm btn-outline-warning" :href=" '#/<%= widget.schema.identifier_plural %>/' + m._id + '/edit' ">
+          <a class="btn btn-sm btn-outline-warning" :href=" '#/<%= schema.identifier_plural %>/' + m._id + '/edit' ">
             <i class="fa fa-fw fa-pencil"></i>
           </a>
 
@@ -90,13 +90,13 @@
 
           <!-- Bootstrap Modal Component -->
           <b-modal :id="'modal_' + m._id"
-            :title="'Destroy <%= widget.schema.label %>?'"
+            :title="'Destroy <%= schema.label %>?'"
             @ok="onConfirmDestroy(m)"
             ok-variant='danger'
             ok-title='DESTROY'
             cancel-title='Cancel'
           >
-            <p class="text-left">Are you sure you want to destroy this <%= widget.schema.label %>?</p>
+            <p class="text-left">Are you sure you want to destroy this <%= schema.label %>?</p>
           </b-modal>
 
         </td>
@@ -114,7 +114,7 @@ import { mapActions } from 'vuex'
 export default {
   props: ['collection'],
   methods: mapActions({
-    onConfirmDestroy: '<%= widget.schema.identifier %>/deleteModel'
+    onConfirmDestroy: '<%= schema.identifier %>/deleteModel'
   })
 }
 </script>
