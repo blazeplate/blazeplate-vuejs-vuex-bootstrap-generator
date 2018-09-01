@@ -1,0 +1,16 @@
+{
+    "id": "codotype-generator-vuejs-vuex-bootstrap",
+    "label": "Vue.js + Vuex",
+    "icon": "devicon-vuejs-plain",
+    "description": "Codotype generator with Vue, Vuex, Axios, and Bootstrap",
+    "tech_tags": ["Vue", "Vue-Router", "Vuex", "Axios", "Bootstrap"],
+    "type_tags": ["Frontend"],
+    "self_configuring": false,
+    "project_path": "vuejs_app",
+    "addons": [],
+    "global_options": [],
+    "model_options": [],
+    "github_url": "codotype/codotype-vuejs-vuex-bootstrap-generator",
+    "version": "0.1.0",
+    "official": true
+  }
