@@ -8,9 +8,39 @@
     "self_configuring": false,
     "project_path": "vuejs_app",
     "addons": [],
-    "global_options": [],
-    "model_options": [],
     "github_url": "codotype/codotype-vuejs-vuex-bootstrap-generator",
     "version": "0.1.0",
-    "official": true
+    "official": true,
+    "global_options": [
+      {
+        "label": "Use Bootstrap 4",
+        "identifier": "use_bootstrap",
+        "type": "BOOLEAN",
+        "help": "Whether or not to build the UI using Bootstrap 4.",
+        "default_value": true,
+        "more_info_url": "https://getbootstrap.com"
+      }
+    ],
+    "model_options": [
+      {
+        "label": "FontAwesome Icon",
+        "identifier": "fontawesome_icon",
+        "type": "TEXT",
+        "help": "Specify a FontAwesome icon to be used in the UI for this model.",
+        "default_value": "fa-checkbox",
+        "more_info_url": "https://fontawesome.com"
+      },
+      {
+        "label": "List Style",
+        "identifier": "list_style",
+        "type": "TEXT_SELECT",
+        "options": [
+            { "id": 1, "value": "table", "label": "Table" },
+            { "id": 2, "value": "cards", "label": "Cards" }
+        ],
+        "help": "Specify a style for the list page for this model",
+        "default_value": "table",
+        "more_info_url": "https://fontawesome.com"
+      }
+    ]
   }
