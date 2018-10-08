@@ -13,15 +13,15 @@
     <div class="row">
       <div class="col-lg-12 text-right">
 
-        <a href="#/<%= schema.identifier_plural %>" class="btn btn-outline-dark mr-2">
-          <i class="fa fa-fw fa-times mr-1"></i>
+        <b-button to="/<%= schema.identifier_plural %>" variant="light" class="mr-2">
+          <i class="fa fa-fw fa-times"></i>
           Cancel
-        </a>
+        </b-button>
 
-        <button class="btn btn-outline-success" @click="formSubmit(model)">
-          <i class="fa fa-fw fa-plus mr-1"></i>
+        <b-button variant="primary" @click="formSubmit(model)">
+          <i class="fa fa-fw fa-plus"></i>
           Create <%= schema.label %>
-        </button>
+        </b-button>
 
       </div>
     </div>
