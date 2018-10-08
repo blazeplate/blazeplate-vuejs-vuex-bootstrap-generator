@@ -1,18 +1,18 @@
-const _ = require('lodash')
-const { Generator } = require('codotype-generator');
+const Generator = require('@codotype/generator');
 
 // // // //
 
 module.exports = class ModuleStore extends Generator {
 
-  async write({ app }) {
+  async write({ blueprint }) {
 
-    // Iterates over each schema in the this.options.build.app.schemas array
-    app.schemas.forEach(async (schema) => {
+    // Iterates over each schema in the this.options.build.blueprint.schemas array
+    blueprint.schemas.forEach(async (schema) => {
 
+      // TODO - abstract this into @codotype/utils
       let newModel = {}
-      _.each(schema.attributes, (attr) => {
-        if (attr.datatype === 'RELATION' && attr.datatypeOptions.relationType === 'HAS_MANY') {
+      schema.attributes.forEach((attr) => {
+        if (attr.datatype === 'STRING_ARRAY') {
           newModel[attr.identifier] = []
         } else if (attr.datatype === 'NUMBER') {
           newModel[attr.identifier] = 0
@@ -21,6 +21,14 @@ module.exports = class ModuleStore extends Generator {
         } else {
           newModel[attr.identifier] = ''
         }
+      })
+
+      schema.relations.forEach((rel) => {
+         if (rel.type === 'HAS_MANY') {
+           newModel[rel.alias.identifier + '_ids'] = []
+         } else if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) {
+           newModel[rel.alias.identifier + '_id'] = ''
+         }
       })
 
       // Ensures presence of requisite directory module + store directory
@@ -75,4 +83,3 @@ module.exports = class ModuleStore extends Generator {
   }
 
 };
-

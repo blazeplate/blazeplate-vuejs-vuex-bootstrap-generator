@@ -5,11 +5,15 @@ import { COLLECTION_MUTATIONS, MODEL_MUTATIONS } from '@/store/lib/mixins'
 // <%= schema.label %> Module Mutations
 export default {
   <%_ schema.relations.forEach((rel) => { _%>
-  <%_ if (rel.type === 'OWNS_MANY') { _%>
+  <%_ if (rel.type === 'REF_BELONGS_TO') { _%>
   <%= rel.alias.identifier_plural %> (state, <%= rel.alias.identifier_plural %>) {
     state.<%= rel.alias.identifier_plural %> = <%= rel.alias.identifier_plural %>
   },
-  <%_ } else if (rel.type === 'BELONGS_TO') { _%>
+  <%_ } else if (rel.type === 'HAS_MANY') { _%>
+  <%= rel.alias.identifier_plural %> (state, <%= rel.alias.identifier_plural %>) {
+    state.<%= rel.alias.identifier_plural %> = <%= rel.alias.identifier_plural %>
+  },
+  <%_ } else if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
   <%= rel.alias.identifier %> (state, <%= rel.alias.identifier %>) {
     state.<%= rel.alias.identifier %> = <%= rel.alias.identifier %>
   },
