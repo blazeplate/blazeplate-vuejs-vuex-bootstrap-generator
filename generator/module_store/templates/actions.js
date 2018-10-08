@@ -8,7 +8,7 @@ const API_ROOT = '/api/<%= schema.identifier_plural %>'
 
 export default {
   <%_ schema.relations.forEach((rel) => { _%>
-  <%_ if (rel.type === 'OWNS_MANY') { _%>
+  <%_ if (rel.type === 'REF_BELONGS_TO') { _%>
   // OWNS MANY
   // GET /api/<%= schema.identifier_plural %>/:id/<%= rel.alias.identifier_plural %>
   <%= 'fetch' + rel.alias.class_name_plural %> ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
@@ -34,7 +34,31 @@ export default {
       throw err // TODO - better error handling
     })
   },
-  <%_ } else if (rel.type === 'BELONGS_TO') { _%>
+  <%_ } else if (rel.type === 'HAS_MANY') { _%>
+  <%= 'fetch' + rel.alias.class_name_plural %> ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
+    commit('fetching', true)
+
+    axios.get(API_ROOT + '/' + <%= schema.identifier %>Id + '/<%= rel.alias.identifier_plural %>', {
+      // headers: {
+      //   authorization: rootGetters['auth/token']
+      // },
+      // params: {
+      //   search: state.filter,
+      //   page: state.currentPage,
+      //   per_page: state.pageSize
+      // }
+    })
+    .then(({ data }) => {
+      commit('<%= rel.alias.identifier_plural %>', data)
+      commit('fetching', false)
+    })
+    .catch((err) => {
+      commit('fetching', false)
+      commit('notification/add', { message: 'Fetch error', context: 'danger', dismissible: true }, { root: true })
+      throw err // TODO - better error handling
+    })
+  },
+  <%_ } else if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
   // BELONGS TO
   // GET /api/<%= schema.identifier_plural %>/:id/<%= rel.alias.identifier %>
   <%= 'fetch' + rel.alias.class_name %> ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
@@ -78,6 +102,24 @@ export default {
     })
     .then(({ data }) => {
       commit('model', data)
+      commit('fetching', false)
+    })
+    .catch((err) => {
+      commit('fetching', false)
+      commit('notification/add', { message: 'Fetch error', context: 'danger', dismissible: true }, { root: true })
+      throw err // TODO - better error handling
+    })
+  },
+  // GET /api/<%= schema.identifier_plural %>/:id
+  fetchEditModel ({ state, commit, dispatch }, <%= schema.identifier %>Id) {
+    commit('fetching', true)
+    axios.get(`${API_ROOT}/${<%= schema.identifier %>Id}`, {
+      // headers: {
+      //   authorization: rootGetters['auth/token']
+      // }
+    })
+    .then(({ data }) => {
+      commit('editModel', data)
       commit('fetching', false)
     })
     .catch((err) => {

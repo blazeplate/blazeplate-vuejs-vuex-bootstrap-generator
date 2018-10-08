@@ -1,16 +1,15 @@
-const _ = require('lodash')
-const { Generator } = require('codotype-generator')
+const Generator = require('@codotype/generator')
 
 // // // //
 
 module.exports = class AppStore extends Generator {
 
-  async write({ app }) {
+  async write({ blueprint }) {
 
     // client/src/store/index.js
     // TODO - move into separate generator class definition
     let storeModules = []
-    _.each(app.schemas, (s) => {
+    blueprint.schemas.forEach((s) => {
       storeModules.push(s.identifier)
     })
 
@@ -28,4 +27,3 @@ module.exports = class AppStore extends Generator {
   }
 
 };
-

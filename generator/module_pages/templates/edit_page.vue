@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <LoadingFull v-if="fetching" />
+  <div class="container" v-else>
     <div class="row">
       <div class="col-sm-12">
         <h2><%= schema.label %> - Edit</h2>
@@ -8,21 +9,20 @@
 
     <hr>
 
-    <<%= schema.class_name %>Form :model="model" v-if="model._id && !fetching" />
-    <Loading v-else />
+    <<%= schema.class_name %>Form :model="model" />
 
     <div class="row">
       <div class="col-lg-12 text-right">
 
-        <a href="#/<%= schema.identifier_plural %>" class="btn btn-outline-dark mr-2">
-          <i class="fa fa-fw fa-times mr-1"></i>
+        <b-button variant="secondary" to="/<%= schema.identifier_plural %>" class="mr-2">
+          <i class="fa fa-fw fa-times"></i>
           Cancel
-        </a>
+        </b-button>
 
-        <button class="btn btn-outline-success" @click="formSubmit(model)">
-          <i class="fa fa-fw fa-plus mr-1"></i>
+        <b-button variant="primary" @click="formSubmit(model)">
+          <i class="fa fa-fw fa-plus"></i>
           Update <%= schema.label %>
-        </button>
+        </b-button>
 
       </div>
     </div>
@@ -34,7 +34,7 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-import Loading from '@/components/Loading'
+import LoadingFull from '@/components/LoadingFull'
 import <%= schema.class_name %>Form from '@/modules/<%= schema.identifier %>/components/<%= schema.class_name %>Form'
 
 export default {
@@ -44,30 +44,26 @@ export default {
     title: '<%= schema.label %> - Edit'
   },
   components: {
-    Loading,
+    LoadingFull,
     <%= schema.class_name %>Form
   },
+  data () {
+    return {
+      fetching: false
+    }
+  },
   created () {
-    this.fetch(this.id)
-    .then(() => {
-      // TODO - this is ugly, fix it.
-      setTimeout(() => {
-        this.setEditModel(this.$store.getters['<%= schema.identifier %>/model'])
-      }, 500)
-    })
+    this.fetching = true
+    this.fetchEditModel(this.id)
+    .then(() => this.fetching = false)
   },
   computed: mapGetters({
-    model: '<%= schema.identifier %>/editModel',
-    fetching: '<%= schema.identifier %>/fetching'
+    model: '<%= schema.identifier %>/editModel'
+    // fetching: '<%= schema.identifier %>/fetching'
   }),
-  methods: {
-    ...mapActions({
-      fetch: '<%= schema.identifier %>/fetchModel',
-      formSubmit: '<%= schema.identifier %>/updateModel'
-    }),
-    ...mapMutations({
-      setEditModel: '<%= schema.identifier %>/editModel'
-    })
-  }
+  methods: mapActions({
+    fetchEditModel: '<%= schema.identifier %>/fetchEditModel',
+    formSubmit: '<%= schema.identifier %>/updateModel'
+  })
 }
 </script>

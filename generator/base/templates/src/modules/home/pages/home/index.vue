@@ -5,7 +5,6 @@
 
       <div class="row my-2">
         <div class="col-lg-12 text-center">
-          <!-- <p class="welcome-text">WELCOME</p> -->
           <p class="welcome-text">Built with</p>
         </div>
       </div>
@@ -18,8 +17,13 @@
 
       <div class="row my-4">
         <div class="col-lg-12 text-center">
-          <a class="btn btn-lg btn-outline-dark" href="https://codotype.github.io" target="_blank">
-            <i class="fa fa-book mr-1"></i>
+          <a class="btn btn-lg btn-outline-dark mx-2" href="https://codotype.io" target="_blank">
+            <i class="fa fa-desktop"></i>
+            codotype.io
+          </a>
+
+          <a class="btn btn-lg btn-outline-dark mx-2" href="https://codotype.github.io" target="_blank">
+            <i class="fa fa-book"></i>
             Documentation
           </a>
         </div>

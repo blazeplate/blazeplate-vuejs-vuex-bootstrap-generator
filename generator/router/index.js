@@ -1,10 +1,9 @@
-const _ = require('lodash')
-const { Generator } = require('codotype-generator')
+const Generator = require('@codotype/generator')
 
 // // // //
 
 module.exports = class AppRouter extends Generator {
-  async write ({ app }) {
+  async write ({ blueprint }) {
 
     // Variables sent to the template
     let routeImports = []
@@ -26,15 +25,14 @@ module.exports = class AppRouter extends Generator {
     ]
 
     // TODO - these should all be opt-in
-    _.each(defaultModules, (m) => {
+    defaultModules.forEach((m) => {
       buildImport(m)
       buildModule(m)
     })
 
-
     // client/src/store/index.js
     // TODO - abstract into separate generator class definition
-    _.each(app.schemas, (s) => {
+    blueprint.schemas.forEach((s) => {
       if (s.identifier !== 'user') {
         buildImport(s)
         buildModule(s)

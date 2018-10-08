@@ -27,7 +27,7 @@ export default {
   // Top-Level page Meta
   metaInfo: {
     title: 'Loading...', // set a title
-    titleTemplate: 'Codotype - %s', // title is now "Codotype - Loading..."
+    titleTemplate: '<%= blueprint.label %> - %s', // title is now "<%= blueprint.label %> - Loading..."
     htmlAttrs: {
       lang: 'en'
     }
@@ -49,6 +49,9 @@ export default {
     padding-top: 4.5rem
 
   #app
+    height: 100%
+
+  .app
     height: 100%
 
 </style>

@@ -1,31 +1,41 @@
 <template>
-  <div class="container h-100">
-    <div class="row d-flex justify-content-center">
-      <div class="col-lg-4">
+  <div class="app d-flex flex-row align-items-center">
+    <div class="container">
+      <Loading v-if="fetching" />
+      <b-row class="justify-content-center">
+        <b-col md="6" sm="8">
+          <b-card no-body class="mx-4">
+            <b-card-body class="p-4">
+              <b-form>
+                <h1>Register</h1>
+                <p class="text-muted">Create your account</p>
 
-        <Loading v-if="fetching" />
-        <div class="card card-body" v-else>
-          <h4 class="card-title">Register</h4>
-          <form>
-            <fieldset>
-              <FormInput v-model="register_user.name" label='Name' placeholder='Name'/>
-              <FormInput v-model="register_user.email" label='Email' placeholder='Email'/>
-              <FormInput v-model="register_user.username"  label='Username' placeholder='Username'/>
-              <FormInput v-model="register_user.password" label='Password' placeholder='Password' type='password'/>
-              <FormInput v-model="register_user.passwordverify" label='Confirm Password' placeholder='Confirm Password' type='password'/>
+                <b-input-group class="mb-3">
+                  <b-form-input type="text" class="form-control" placeholder="Username" autocomplete="username" v-model="register_user.username" />
+                </b-input-group>
 
-              <button class="btn btn-outline-success btn-block" @click="register()">
-                <i class="fa fa-check mr-2"></i>
-                Register
-              </button>
+                <b-input-group class="mb-3">
+                  <b-form-input type="text" class="form-control" placeholder="Email" autocomplete="email" v-model="register_user.email" />
+                </b-input-group>
 
-              <p v-if="register_user.error" class="error">Bad registration information</p>
+                <b-input-group class="mb-3">
+                  <b-form-input type="password" class="form-control" placeholder="Password" autocomplete="new-password" v-model="register_user.password" />
+                </b-input-group>
 
-            </fieldset>
-          </form>
-        </div>
+                <b-input-group class="mb-4">
+                  <b-form-input type="password" class="form-control" placeholder="Repeat password" autocomplete="new-password" v-model="register_user.passwordverify" />
+                </b-input-group>
 
-      </div>
+                <p v-if="register_user.error" class="error">Bad registration information</p>
+
+                <b-button variant="primary" block @click="register()">
+                  Create Account
+                </b-button>
+              </b-form>
+            </b-card-body>
+          </b-card>
+        </b-col>
+      </b-row>
     </div>
   </div>
 </template>

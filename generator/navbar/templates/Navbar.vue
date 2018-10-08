@@ -1,7 +1,7 @@
 <template>
-  <b-navbar toggleable="md" type="dark" variant="dark" fixed="top">
-    <b-navbar-brand href="#/">
-      <%= app.label %>
+  <b-navbar toggleable="md" fixed="top" type="light" variant="light" class="bg-white">
+    <b-navbar-brand to="/">
+      <%= blueprint.label %>
     </b-navbar-brand>
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -9,10 +9,9 @@
 
       <!-- Navbar Links -->
       <b-navbar-nav class="mr-auto">
-        <%_ for (i in headerLinks) { _%>
-        <!-- TODO - replace hard-coded href with Vue-Router to: directive, or equivalent -->
-        <b-nav-item href="<%= headerLinks[i].href %>"><%= headerLinks[i].text %></b-nav-item>
-        <%_ } _%>
+        <%_ headerLinks.forEach((link) => { _%>
+        <b-nav-item to="<%= link.href %>"><%= link.text %></b-nav-item>
+        <%_ }) _%>
       </b-navbar-nav>
 
       <!-- User Dropdown -->
@@ -21,15 +20,15 @@
           <template slot="button-content">
             {{ currentUser.email }}
           </template>
-          <b-dropdown-item :href="'#/users/' + currentUser._id">Profile</b-dropdown-item>
+          <b-dropdown-item :to="'/users/' + currentUser._id">Profile</b-dropdown-item>
           <b-dropdown-item @click="logout()">Logout</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
       <!-- Register / Login -->
       <b-navbar-nav v-else>
-        <b-nav-item href="#/auth/register">Register</b-nav-item>
-        <b-nav-item href="#/auth/login">Login</b-nav-item>
+        <b-nav-item to="/auth/register">Register</b-nav-item>
+        <b-nav-item to="/auth/login">Login</b-nav-item>
       </b-navbar-nav>
 
     </b-collapse>
@@ -73,4 +72,3 @@ export default {
       display: flex
 
 </style>
-

@@ -1,28 +1,44 @@
 <template>
-  <div class="container h-100">
-    <div class="row d-flex justify-content-center">
-      <div class="col-lg-4">
-        <Loading v-if="fetching" />
-        <div class="card card-body" v-else>
-          <h4 class="card-title">Sign In</h4>
-          <fieldset>
-
-              <div class="form-group">
-                <input class="form-control" placeholder="E-mail" v-model="login_user.username" type="text">
-              </div>
-
-              <div class="form-group">
-                <input class="form-control" placeholder="Password" v-model="login_user.password" type="password" value="">
-              </div>
-
-              <button class="btn btn-outline-success btn-block" @click="login()">
-                <i class="fa fa-check mr-2"></i>
-                Login
-              </button>
-
-          </fieldset>
-        </div>
-      </div>
+  <div class="app d-flex flex-row align-items-center">
+    <div class="container">
+      <Loading v-if="fetching" />
+      <b-row class="justify-content-center">
+        <b-col md="8">
+          <b-card-group>
+            <b-card no-body class="p-4">
+              <b-card-body>
+                <b-form>
+                  <h1>Login</h1>
+                  <p class="text-muted">Sign In to your account</p>
+                  <b-input-group class="mb-3">
+                    <b-form-input type="text" class="form-control" placeholder="Username" autocomplete="username email" v-model="login_user.username" />
+                  </b-input-group>
+                  <b-input-group class="mb-4">
+                    <b-form-input type="password" class="form-control" placeholder="Password" autocomplete="current-password" v-model="login_user.password" />
+                  </b-input-group>
+                  <b-row>
+                    <b-col cols="6">
+                      <b-button variant="primary" class="px-4" @click="login()">Login</b-button>
+                    </b-col>
+                    <b-col cols="6" class="text-right">
+                      <b-button variant="link" class="px-0">Forgot password?</b-button>
+                    </b-col>
+                  </b-row>
+                </b-form>
+              </b-card-body>
+            </b-card>
+            <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
+              <b-card-body class="text-center">
+                <div>
+                  <h2>Sign up</h2>
+                  <p>Register a new account to get started using all the great features of this web application</p>
+                  <b-button to="/auth/register" variant="primary" class="active mt-3">Register Now!</b-button>
+                </div>
+              </b-card-body>
+            </b-card>
+          </b-card-group>
+        </b-col>
+      </b-row>
     </div>
   </div>
 </template>
