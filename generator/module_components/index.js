@@ -1,15 +1,14 @@
 // Generator index file
-const { Generator } = require('codotype-generator');
-var _ = require('lodash');
+const Generator = require('@codotype/generator');
 
 // // // //
 
 module.exports = class ModuleComponents extends Generator {
 
-  async write({ app }) {
+  async write({ blueprint }) {
 
-    // Iterates over each schema in the app.schemas array
-    app.schemas.forEach(async (schema) => {
+    // Iterates over each schema in the blueprint.schemas array
+    blueprint.schemas.forEach(async (schema) => {
 
       // Destination for module / components directory
       const moduleComponentsDest = 'src/modules/' + schema.identifier + '/components/'
@@ -40,15 +39,21 @@ module.exports = class ModuleComponents extends Generator {
 
       // Generate relational components
       schema.relations.forEach(async (rel) => {
-        let related_schema = app.schemas.find(s => s._id === rel.related_schema_id)
-
-        if (rel.type === 'BELONGS_TO') {
+        let related_schema = blueprint.schemas.find(s => s._id === rel.related_schema_id)
+        // TODO - add HAS_MANY UI
+        if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) {
           await this.copyTemplate(
             this.templatePath('belongs-to-component.vue'),
             this.destinationPath(moduleComponentsDest + rel.alias.class_name + '.vue'),
             { schema, related_schema, rel }
           )
-        } else if (rel.type === 'OWNS_MANY') {
+        } else if (rel.type === 'HAS_MANY') {
+          await this.copyTemplate(
+            this.templatePath('owns-many-component.vue'),
+            this.destinationPath(moduleComponentsDest + rel.alias.class_name_plural + '.vue'),
+            { schema, related_schema, rel }
+          )
+        } else if (rel.type === 'REF_BELONGS_TO') {
           await this.copyTemplate(
             this.templatePath('owns-many-component.vue'),
             this.destinationPath(moduleComponentsDest + rel.alias.class_name_plural + '.vue'),
@@ -62,4 +67,3 @@ module.exports = class ModuleComponents extends Generator {
   }
 
 };
-

@@ -1,6 +1,6 @@
 
 <template>
-  <table class="table table-striped table-hover">
+  <table class="table table-hover">
 
     <!-- Table Header -->
     <thead>
@@ -15,8 +15,10 @@
       <%_ } _%>
       <%_ }) _%>
       <%_ schema.relations.forEach((rel) => { _%>
-      <%_ if (rel.type === 'BELONGS_TO') { _%>
+      <%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
       <th><%= rel.alias.label %></th>
+      <%_ } else if (rel.type === 'HAS_MANY') { _%>
+      <th><%= rel.alias.label_plural %></th>
       <%_ } _%>
       <%_ }) _%>
       <th></th>
@@ -26,16 +28,16 @@
     <tbody>
 
       <!-- Empty Table Row -->
-      <tr class='tr-warning' v-if="!collection[0]">
+      <tr class='table-warning' v-if="!collection[0]">
         <%_ schema.attributes.forEach((attr, index) => { _%>
-        <%_ if (index === '0') { _%>
+        <%_ if (index === 0) { _%>
         <td>Empty</td>
         <%_ } else { _%>
         <td></td>
         <%_ } _%>
         <%_ }) _%>
         <%_ schema.relations.forEach((rel) => { _%>
-        <%_ if (rel.type === 'BELONGS_TO') { _%>
+        <%_ if (['BELONGS_TO', 'HAS_MANY', 'HAS_ONE'].includes(rel.type)) { _%>
         <td></th>
         <%_ } _%>
         <%_ }) _%>
@@ -46,9 +48,9 @@
       <%_ schema.attributes.forEach((attr, index) => { _%>
         <%_ if (attr.unique) { _%>
         <td>
-          <a :href=" '#/<%= schema.identifier_plural %>/' + m._id ">
+          <router-link :to=" '/<%= schema.identifier_plural %>/' + m._id ">
             {{ m.<%=attr.identifier%> }}
-          </a>
+          </router-link>
         </td>
         <%_ } else if (attr.datatype === 'BOOL') { _%>
         <td>
@@ -57,36 +59,39 @@
             <i class="fa fa-fw fa-square-o" v-if="!m.<%=attr.identifier%>"></i>
           </span>
         </td>
-        <%_ } else if (attr.datatype === 'HAS_MANY') { _%>
-        <td>
-          {{ m.<%=attr.identifier%>.length }}
-        </td>
+        <%_ } else if (attr.datatype === 'STRING_ARRAY') { _%>
+        <td>{{m.<%= schema.attributes[index].identifier %>.join(', ')}}</td>
         <%_ } else { _%>
         <td>{{m.<%= schema.attributes[index].identifier %>}}</td>
         <%_ } _%>
       <%_ }) _%>
       <%_ schema.relations.forEach((rel) => { _%>
-      <%_ if (rel.type === 'BELONGS_TO') { _%>
-        <td>
+      <%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
+        <td v-if="m.<%= rel.alias.identifier %>_id">
           <router-link :to="'/<%= rel.schema.identifier_plural %>/' + m.<%= rel.alias.identifier + '_id' %>">
             {{m.<%= rel.alias.identifier %>.<%= rel.related_lead_attribute %>}}
           </router-link>
+        </td>
+        <td v-else></td>
+      <%_ } else if (rel.type === 'HAS_MANY') { _%>
+        <td>
+          {{ m.<%=rel.alias.identifier %>_ids.length }} <%=rel.alias.label_plural %>
         </td>
       <%_ } _%>
       <%_ }) _%>
         <!-- Edit <%= schema.label %>-->
         <td class='text-right'>
-          <a class="btn btn-sm btn-outline-primary" :href=" '#/<%= schema.identifier_plural %>/' + m._id">
+          <b-button size="sm" variant="outline-primary" :to=" '/<%= schema.identifier_plural %>/' + m._id">
             <i class="fa fa-fw fa-eye"></i>
-          </a>
+          </b-button>
 
-          <a class="btn btn-sm btn-outline-warning" :href=" '#/<%= schema.identifier_plural %>/' + m._id + '/edit' ">
+          <b-button size="sm" variant="outline-warning" :to=" '/<%= schema.identifier_plural %>/' + m._id + '/edit' ">
             <i class="fa fa-fw fa-pencil"></i>
-          </a>
+          </b-button>
 
-          <button class="btn btn-sm btn-outline-danger" v-b-modal="'modal_' + m._id">
+          <b-button size="sm" variant="outline-danger" v-b-modal="'modal_' + m._id">
             <i class="fa fa-fw fa-trash"></i>
-          </button>
+          </b-button>
 
           <!-- Bootstrap Modal Component -->
           <b-modal :id="'modal_' + m._id"

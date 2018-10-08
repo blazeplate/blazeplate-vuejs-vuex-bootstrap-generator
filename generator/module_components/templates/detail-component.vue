@@ -1,7 +1,7 @@
 
 <template>
-  <div class="row">
-    <div class="col-lg-12">
+  <div class="card mb-3">
+    <div class="card-body">
 
       <!-- Bootstrap Modal Component -->
       <b-modal :id="'destroyModal'"
@@ -30,35 +30,57 @@
         <div class="col-sm-4 text-right">
 
           <!-- Edit -->
-          <a class="btn btn-outline-warning btn-sm" :href="'#/<%= schema.identifier_plural %>/' + model._id + '/edit'">
+          <b-button size="sm" variant="outline-warning" :to="'/<%= schema.identifier_plural %>/' + model._id + '/edit'">
             <i class="fa fa-fw fa-pencil"></i>
-          </a>
+          </b-button>
 
           <!-- Destroy -->
-          <button class="btn btn-sm btn-outline-danger" v-b-modal="'destroyModal'">
+          <b-button size="sm" variant="outline-danger" v-b-modal="'destroyModal'">
             <i class="fa fa-fw fa-trash"></i>
-          </button>
+          </b-button>
 
         </div>
       </div>
 
-      <table class="table table-striped" v-if='!fetching'>
+      <table class="table" v-if='!fetching'>
 
         <!-- Table Header -->
         <tbody>
-        <%_ for (index in schema.attributes) { _%>
-        <%_ let attr = schema.attributes[index] _%>
-        <%_ if (attr.datatype !== 'RELATION') { _%>
+        <%_ schema.attributes.forEach((attr) => { _%>
           <tr>
+            <td><%= attr.label %></td>
+            <%_ if (attr.datatype === 'STRING_ARRAY') { _%>
+            <td>{{model.<%= attr.identifier %>.join(', ')}}</td>
+            <%_ } else if (attr.datatype === 'BOOL') { _%>
             <td>
-              <%= attr.label %>
+              <span>
+                <i class="fa fa-fw fa-check-square-o" v-if="model.<%= attr.identifier%>"></i>
+                <i class="fa fa-fw fa-square-o" v-if="!model.<%= attr.identifier%>"></i>
+              </span>
             </td>
-            <td>
-              {{model.<%= attr.identifier %>}}
+            <%_ } else { _%>
+            <td>{{model.<%= attr.identifier %>}}</td>
+            <%_ } _%>
+          </tr>
+        <%_ }) _%>
+        <%_ schema.relations.forEach((rel) => { _%>
+        <%_ if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) { _%>
+          <tr>
+            <td><%= rel.alias.label %></td>
+            <td v-if="model.<%= rel.alias.identifier %>_id">
+              <router-link :to="'/<%= rel.schema.identifier_plural %>/' + model.<%= rel.alias.identifier + '_id' %>">
+                {{model.<%= rel.alias.identifier %>.<%= rel.related_lead_attribute %>}}
+              </router-link>
             </td>
+            <td v-else>N/A</td>
+          </tr>
+        <%_ } else if (['HAS_MANY'].includes(rel.type)) { _%>
+          <tr>
+            <td><%= rel.alias.label_plural %></td>
+            <td>{{model.<%= rel.alias.identifier %>_ids.length }} <%= rel.alias.label_plural %></td>
           </tr>
         <%_ } _%>
-        <%_ } _%>
+        <%_ }) _%>
         </tbody>
 
       </table>
