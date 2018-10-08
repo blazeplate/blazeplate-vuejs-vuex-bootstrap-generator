@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { Generator } = require('codotype-generator')
+const Generator = require('@codotype/generator')
 
 // // // //
 
