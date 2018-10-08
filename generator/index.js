@@ -1,8 +1,9 @@
-const { Generator } = require('codotype-generator')
+const Generator = require('@codotype/generator')
 
 module.exports = class VueJs extends Generator {
   async write () {
     await this.composeWith('./base')
+    await this.composeWith('./main')
     await this.composeWith('./navbar')
     await this.composeWith('./router')
     await this.composeWith('./store')
