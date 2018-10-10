@@ -20,7 +20,8 @@
     "@codotype/generator": "^0.2.0"
   },
   "devDependencies": {
+    "@codotype/blueprints": "^0.1.0",
     "@codotype/runtime": "^0.4.0",
-    "@codotype/blueprints": "^0.1.0"
+    "@codotype/util": "^0.3.0"
   }
 }
