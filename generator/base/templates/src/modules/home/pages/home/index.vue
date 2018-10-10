@@ -5,11 +5,11 @@
 
       <div class="row">
         <div class="col-lg-12 text-center">
-          <p class="welcome-text">Built with</p>
+          <p class="welcome-text mb-0">Built with</p>
         </div>
       </div>
 
-      <div class="row mt-4 mb-2">
+      <div class="row my-2">
         <div class="col-lg-12 text-center">
           <!-- <img src="@/assets/logo.png"> -->
           <h1 class='display-1' style="font-family: monospace;">codotype</h1>
