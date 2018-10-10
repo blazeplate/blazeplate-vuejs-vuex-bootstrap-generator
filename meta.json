@@ -19,7 +19,7 @@
         "type": "TEXT",
         "help": "Specify a FontAwesome 4.7 icon to be used in the UI for this model.",
         "default_value": "fa fa-square-o",
-        "more_info_url": "https://fontawesome.com"
+        "more_info_url": "https://fontawesome.com/v4.7.0/icons/"
       },
       {
         "label": "List Style",
@@ -31,8 +31,7 @@
             { "id": 2, "value": "cards", "label": "Cards" }
         ],
         "help": "Specify a style for the list page for this model",
-        "default_value": "table",
-        "more_info_url": "https://fontawesome.com"
+        "default_value": "table"
       }
     ]
   }
