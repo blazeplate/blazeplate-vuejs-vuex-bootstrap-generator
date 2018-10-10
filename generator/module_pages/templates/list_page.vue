@@ -5,6 +5,7 @@
     <div class="row">
       <div class="col-md-8">
         <h2>
+          <i class="<%= schemaOptions.fontawesome_icon %>"></i>
           <%= schema.label_plural %>
         </h2>
       </div>

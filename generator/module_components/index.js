@@ -5,10 +5,13 @@ const Generator = require('@codotype/generator');
 
 module.exports = class ModuleComponents extends Generator {
 
-  async write({ blueprint }) {
+  async write({ blueprint, configuration }) {
 
     // Iterates over each schema in the blueprint.schemas array
     blueprint.schemas.forEach(async (schema) => {
+
+      // Pulls model options from configuration object
+      const schemaOptions = configuration.model_options[schema._id]
 
       // Destination for module / components directory
       const moduleComponentsDest = 'src/modules/' + schema.identifier + '/components/'
@@ -23,11 +26,11 @@ module.exports = class ModuleComponents extends Generator {
         { schema }
       )
 
-      // client/src/modules/resource/components/ResourceShowWidget.vue
+      // client/src/modules/resource/components/ResourceListWidget.vue
       await this.copyTemplate(
         this.templatePath('list-component.vue'),
         this.destinationPath(moduleComponentsDest + schema.class_name + 'ListWidget.vue'),
-        { schema }
+        { schema, schemaOptions }
       );
       // client/src/modules/resource/components/ResourceShowWidget.vue
       // client/src/components/resource_ListWidget.vue

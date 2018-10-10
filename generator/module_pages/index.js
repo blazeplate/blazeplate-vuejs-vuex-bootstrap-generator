@@ -5,10 +5,13 @@ const Generator = require('@codotype/generator');
 
 module.exports = class ModulePages extends Generator {
 
-  async write({ blueprint }) {
+  async write({ blueprint, configuration }) {
 
     // Iterates over each schema in the this.options.build.blueprint.schemas array
     blueprint.schemas.forEach(async (schema) => {
+
+      // Pulls model options from configuration object
+      const schemaOptions = configuration.model_options[schema._id]
 
       // Defines destination directory for files in this loop
       const moduleRoot =  'src/modules/' + schema.identifier
@@ -22,7 +25,7 @@ module.exports = class ModulePages extends Generator {
       await this.copyTemplate(
         this.templatePath('list_page.vue'),
         this.destinationPath(moduleRoot + '/pages/list/index.vue'),
-        { schema }
+        { schema, schemaOptions }
       )
 
       // client/src/modules/resource/pages/new/index.vue
