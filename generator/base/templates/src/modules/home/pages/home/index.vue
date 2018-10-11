@@ -18,7 +18,7 @@
 
       <div class="row my-4">
         <div class="col-lg-12 text-center">
-          <a class="btn btn-lg btn-outline-dark mx-2" href="https://codotype.io" target="_blank">
+          <a class="btn btn-lg btn-outline-dark mx-2" href="http://codotype.io" target="_blank">
             <i class="fa fa-desktop"></i>
             codotype.io
           </a>
