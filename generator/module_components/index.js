@@ -8,7 +8,9 @@ module.exports = class ModuleComponents extends Generator {
   async write({ blueprint, configuration }) {
 
     // Iterates over each schema in the blueprint.schemas array
-    blueprint.schemas.forEach(async (schema) => {
+    // blueprint.schemas.forEach(async (schema) => {
+    for (var i = blueprint.schemas.length - 1; i >= 0; i--) {
+      const schema = blueprint.schemas[i]
 
       // Pulls model options from configuration object
       const schemaOptions = configuration.model_options[schema._id]
@@ -41,8 +43,13 @@ module.exports = class ModuleComponents extends Generator {
       );
 
       // Generate relational components
-      schema.relations.forEach(async (rel) => {
-        let related_schema = blueprint.schemas.find(s => s._id === rel.related_schema_id)
+      // schema.relations.forEach(async (rel) => {
+      let rel;
+      let related_schema;
+      for (var j = schema.relations.length - 1; j >= 0; j--) {
+        rel = schema.relations[j]
+
+        related_schema = blueprint.schemas.find(s => s._id === rel.related_schema_id)
         // TODO - add HAS_MANY UI
         if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) {
           await this.copyTemplate(
@@ -63,9 +70,10 @@ module.exports = class ModuleComponents extends Generator {
             { schema, related_schema, rel }
           )
         }
-      })
+      // })
+      }
 
-    })
+    }
 
   }
 
