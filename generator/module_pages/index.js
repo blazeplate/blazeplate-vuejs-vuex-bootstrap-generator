@@ -6,9 +6,12 @@ const Generator = require('@codotype/generator');
 module.exports = class ModulePages extends Generator {
 
   async write({ blueprint, configuration }) {
+    // console.log('WRITING MODULE PAGES')
 
     // Iterates over each schema in the this.options.build.blueprint.schemas array
-    blueprint.schemas.forEach(async (schema) => {
+    // blueprint.schemas.forEach(async (schema) => {
+    for (var i = blueprint.schemas.length - 1; i >= 0; i--) {
+      const schema = blueprint.schemas[i]
 
       // Pulls model options from configuration object
       const schemaOptions = configuration.model_options[schema._id]
@@ -49,7 +52,9 @@ module.exports = class ModulePages extends Generator {
         { schema }
       )
 
-    })
+    // }) // FOR EACH
+    } // FOR
+    // console.log('WROTE MODULE PAGES')
 
   }
 

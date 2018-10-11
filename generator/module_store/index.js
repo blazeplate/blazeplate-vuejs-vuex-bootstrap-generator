@@ -5,9 +5,12 @@ const Generator = require('@codotype/generator');
 module.exports = class ModuleStore extends Generator {
 
   async write({ blueprint }) {
-
+    // console.log('WRITING MODULE STORE')
     // Iterates over each schema in the this.options.build.blueprint.schemas array
-    blueprint.schemas.forEach(async (schema) => {
+    // return blueprint.schemas.forEach(async (schema) => {
+    // } blueprint.schemas.forEach(async (schema) => {
+    for (var i = blueprint.schemas.length - 1; i >= 0; i--) {
+      const schema = blueprint.schemas[i]
 
       // TODO - abstract this into @codotype/utils
       let newModel = {}
@@ -78,7 +81,9 @@ module.exports = class ModuleStore extends Generator {
         { schema }
       );
 
-    })
+    // }) // FOREACH
+    } // FOR
+    // console.log('WROTE MODULE STORE')
 
   }
 
