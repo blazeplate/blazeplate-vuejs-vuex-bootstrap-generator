@@ -1,8 +1,6 @@
-const Generator = require('@codotype/generator')
 
-// // // //
-
-module.exports = class AppRouter extends Generator {
+module.exports = {
+  name: 'Router',
   async write ({ blueprint }) {
 
     // Variables sent to the template
@@ -49,5 +47,4 @@ module.exports = class AppRouter extends Generator {
     );
 
   }
-
-};
+}
