@@ -1,21 +1,7 @@
-const Generator = require('@codotype/generator')
-
-// // // //
-
-module.exports = class VueMain extends Generator {
+module.exports = {
+  name: 'Main',
   async write ({ blueprint }) {
-
-    // Generates /src/App.vue
-    await this.copyTemplate(
-      this.templatePath('App.vue'),
-      this.destinationPath('src/App.vue')
-    );
-
-    // Generates /index.html
-    await this.copyTemplate(
-      this.templatePath('index.html'),
-      this.destinationPath('index.html')
-    );
-
+    this.renderComponent({ src: 'App.vue', dest: 'src/App.vue' })
+    this.renderComponent({ src: 'index.html', dest: 'src/index.html' })
   }
 };
