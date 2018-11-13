@@ -7,16 +7,9 @@
       <b-modal :id="'destroyModal'"
         :title="'Destroy <%= schema.label %>?'"
         @ok="onConfirmDestroy(model)"
-        header-bg-variant='dark'
-        header-text-variant='light'
-        body-bg-variant='dark'
-        body-text-variant='light'
-        footer-bg-variant='danger'
-        footer-text-variant='light'
         ok-variant='danger'
         ok-title='DESTROY'
         cancel-title='Cancel'
-        cancel-variant='dark'
       >
         <p class="text-left">Are you sure you want to destroy this <%= schema.label %>?</p>
       </b-modal>
@@ -93,7 +86,7 @@
 <!-- // // // //  -->
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import Loading from '@/components/Loading'
 
 export default {

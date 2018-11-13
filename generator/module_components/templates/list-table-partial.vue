@@ -37,7 +37,7 @@
         <%_ }) _%>
         <%_ schema.relations.forEach((rel) => { _%>
         <%_ if (['BELONGS_TO', 'HAS_MANY', 'HAS_ONE'].includes(rel.type)) { _%>
-        <td></th>
+        <td></td>
         <%_ } _%>
         <%_ }) _%>
         <td></td>
@@ -73,8 +73,11 @@
         </td>
         <td v-else></td>
       <%_ } else if (rel.type === 'HAS_MANY') { _%>
-        <td>
+        <td v-if="m.<%=rel.alias.identifier %>_ids">
           {{ m.<%=rel.alias.identifier %>_ids.length }} <%=rel.alias.label_plural %>
+        </td>
+        <td v-else>
+          None
         </td>
       <%_ } _%>
       <%_ }) _%>

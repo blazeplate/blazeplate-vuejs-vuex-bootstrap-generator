@@ -81,12 +81,11 @@ export default {
     <%_ }) _%>
   },
   computed: {
-    <%_ schema.relations.forEach((rel) => { _%>
-    <%_ if (rel.type !== 'REF_BELONGS_TO') { _%>
+    <%_ let filteredRelations = schema.relations.filter(r => r.type !== 'REF_BELONGS_TO') _%>
+    <%_ filteredRelations.forEach((rel, index) => { _%>
     <%= rel.alias.identifier_plural %> () {
       return this.$store.getters['<%= rel.schema.identifier %>/collection']
-    },
-    <%_ } _%>
+    }<%= helpers.trailingComma(filteredRelations, index) %>
     <%_ }) _%>
   }
 }
