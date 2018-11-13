@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col-lg-12 text-right">
 
-        <b-button to="/<%= schema.identifier_plural %>" variant="light" class="mr-2">
+        <b-button @click="$router.back()" variant="light" class="mr-2">
           <i class="fa fa-fw fa-times"></i>
           Cancel
         </b-button>

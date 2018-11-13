@@ -2,7 +2,7 @@
   <LoadingFull v-if="fetching" />
   <div class="container" v-else>
 
-    <<%= schema.label %>ShowWidget :model="model" :fetching="fetching" />
+    <<%= schema.class_name %>ShowWidget :model="model" :fetching="fetching" />
 
     <div class="row">
       <%_ schema.relations.forEach((rel) => { _%>

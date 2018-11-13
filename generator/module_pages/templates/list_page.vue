@@ -19,11 +19,11 @@
     </div>
 
     <!-- List View -->
-    <div class="row">
-      <div class="col-lg-12">
+    <b-row>
+      <b-col lg=12>
         <ListView :collection="collection" />
-      </div>
-    </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
