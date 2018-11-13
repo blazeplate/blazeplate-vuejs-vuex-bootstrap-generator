@@ -6,6 +6,8 @@ import Meta from 'vue-meta'
 import App from '@/App'
 import router from '@/routers'
 import store from '@/store'
+import configureModerator from '@/store/mediator'
+configureModerator(store, router)
 
 // vue-meta
 // supports `meta` object returned with `module.defaults`
