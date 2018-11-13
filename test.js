@@ -2,16 +2,19 @@
 const CodotypeRuntime = require('@codotype/runtime')
 const buildConfiguration = require('@codotype/util/lib/buildConfiguration')
 
+// Loads the generator's metadata
+const GeneratorMeta = require('./meta')
+
+// Loads blueprint for testing
 // const blueprint = require('@codotype/blueprints/lib/team-lists.json')
-// const blueprint = require('@codotype/blueprints/lib/textbook-library.json')
-const blueprint = require('@codotype/blueprints/lib/twitter.json')
+// const blueprint = require('@codotype/blueprints/lib/twitter.json')
+const blueprint = require('@codotype/blueprints/lib/textbook-library.json')
 
 // Each stage can accept its own app - this is done to simplify challenges introduc
-// TODO - pull `generator_id` from codotype-meta.json, potentially refactor this approach?
 const build = {
   blueprint: blueprint,
   stages: [{
-    generator_id: 'codotype-generator-vuejs-vuex-bootstrap',
+    generator_id: GeneratorMeta.id,
     configuration: buildConfiguration({ blueprint: blueprint, generator: require('./meta') })
   }]
 }

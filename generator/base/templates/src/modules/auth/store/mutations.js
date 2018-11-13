@@ -7,24 +7,25 @@ export default {
   clear_login_user (state) {
     state.login_user = {
       email: '',
+      username: '',
       password: '',
       errors: {}
     }
   },
   clear_register_user (state) {
     state.register_user = {
-      name: '',
       email: '',
+      username: '',
       password: '',
       passwordverify: '',
-      github: {
-        login: ''
-      },
       errors: {}
     }
   },
   logging_in (state, status) {
     state.logging_in = status
+  },
+  logged_in (state, bool) {
+    state.logged_in = bool
   },
   token (state, token) {
     localStorage.token = token

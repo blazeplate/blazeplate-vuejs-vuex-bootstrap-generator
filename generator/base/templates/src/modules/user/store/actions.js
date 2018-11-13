@@ -1,5 +1,4 @@
-// TODO - phase out @/store/lib/helpers!
-import { $GET } from '@/store/lib/helpers'
+import axios from 'axios'
 import { PAGINATION_ACTIONS, FILTER_ACTIONS } from '@/store/lib/mixins'
 
 const API_ROOT = '/api/users'
@@ -15,16 +14,14 @@ export default {
     commit('fetching', true)
 
     // Fetches either active or inactive users
-    let apiRoute = API_ROOT
-    if (state.showingInactive) {
-      apiRoute += '/past'
-    }
-
-    // Fetches Collection from the server
-    $GET(apiRoute, { token: rootGetters['auth/token'] })
-    .then((json) => {
+    axios.get(API_ROOT, {
+      // headers: {
+      //   authorization: rootGetters['auth/token']
+      // }
+    })
+    .then(({ data }) => {
       commit('fetching', false)
-      commit('collection', json)
+      commit('collection', data)
     })
     .catch((err) => {
       commit('fetching', false)
@@ -36,9 +33,13 @@ export default {
   // Fetches an individual user from the server
   fetchUser ({ store, commit, rootGetters }, userID) {
     commit('fetching', true)
-    $GET(`/api/users/${userID}`, { token: rootGetters['auth/token'] })
-    .then((user) => {
-      commit('model', user)
+    axios.get(`${API_ROOT}/${userId}`, {
+      // headers: {
+      //   authorization: rootGetters['auth/token']
+      // }
+    })
+    .then(({ data }) => {
+      commit('model', data)
       commit('fetching', false)
     })
     .catch((err) => {

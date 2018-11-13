@@ -1,9 +1,6 @@
-const Generator = require('@codotype/generator')
 
-// // // //
-
-module.exports = class AppStore extends Generator {
-
+module.exports = {
+  name: 'VuexStore',
   async write({ blueprint }) {
 
     // client/src/store/index.js
@@ -25,5 +22,4 @@ module.exports = class AppStore extends Generator {
     );
 
   }
-
-};
+}

@@ -1,8 +1,5 @@
-const Generator = require('@codotype/generator')
-
-// // // //
-
-module.exports = class VueJsBase extends Generator {
+module.exports = {
+  name: 'Base',
   async write () {
     await this.copyDir(
       this.templatePath(),

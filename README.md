@@ -1,4 +1,4 @@
-# codotype-vuejs-vuex-bootstrap-generator
+# Vue.js + Vuex + Bootstrap Generator
 Codotype generator for Vue.js, Vue Router, Vuex, & Bootstrap 4
 
 ## Build Setup

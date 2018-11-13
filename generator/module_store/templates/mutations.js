@@ -4,6 +4,8 @@ import { COLLECTION_MUTATIONS, MODEL_MUTATIONS } from '@/store/lib/mixins'
 
 // <%= schema.label %> Module Mutations
 export default {
+  ...COLLECTION_MUTATIONS,
+  ...MODEL_MUTATIONS,
   <%_ schema.relations.forEach((rel) => { _%>
   <%_ if (rel.type === 'REF_BELONGS_TO') { _%>
   <%= rel.alias.identifier_plural %> (state, <%= rel.alias.identifier_plural %>) {
@@ -19,8 +21,6 @@ export default {
   },
   <%_ } _%>
   <%_ })_%>
-  ...COLLECTION_MUTATIONS,
-  ...MODEL_MUTATIONS,
   resetNewModel (state) {
     state.newModel = _.cloneDeep(NEW_<%= schema.identifier.toUpperCase() %>)
   },

@@ -1,10 +1,7 @@
-const Generator = require('@codotype/generator');
 
-// // // //
-
-module.exports = class ModuleRouter extends Generator {
+module.exports = {
+  name: 'ModuleRouter',
   async write({ blueprint }) {
-    // console.log('WRITING MODULE STORE')
 
     // Iterates over each schema in the this.options.build.blueprint.schemas array
     // blueprint.schemas.forEach(async (schema) => {

@@ -1,10 +1,6 @@
-// Generator index file
-const Generator = require('@codotype/generator');
 
-// // // //
-
-module.exports = class ModuleComponents extends Generator {
-
+module.exports = {
+  name: 'ModuleComponents',
   async write({ blueprint, configuration }) {
 
     // Iterates over each schema in the blueprint.schemas array

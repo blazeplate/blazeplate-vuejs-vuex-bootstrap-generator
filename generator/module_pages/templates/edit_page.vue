@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-lg-12 text-right">
 
-        <b-button variant="secondary" to="/<%= schema.identifier_plural %>" class="mr-2">
+        <b-button @click="$router.back()" variant="secondary" class="mr-2">
           <i class="fa fa-fw fa-times"></i>
           Cancel
         </b-button>
@@ -33,7 +33,7 @@
 <!-- // // // //  -->
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import LoadingFull from '@/components/LoadingFull'
 import <%= schema.class_name %>Form from '@/modules/<%= schema.identifier %>/components/<%= schema.class_name %>Form'
 
@@ -55,7 +55,7 @@ export default {
   created () {
     this.fetching = true
     this.fetchEditModel(this.id)
-    .then(() => this.fetching = false)
+    .then(() => { this.fetching = false })
   },
   computed: mapGetters({
     model: '<%= schema.identifier %>/editModel'
