@@ -2,6 +2,8 @@ import { COLLECTION_STATE, MODEL_STATE } from '@/store/lib/mixins'
 
 // <%= schema.label %> Module State
 export default {
+  ...COLLECTION_STATE,
+  ...MODEL_STATE,
   <%_ schema.relations.forEach((rel) => { _%>
   <%_ if (rel.type === 'REF_BELONGS_TO') { _%>
   <%= rel.alias.identifier_plural %>: [],
@@ -11,8 +13,6 @@ export default {
   <%= rel.alias.identifier %>: {},
   <%_ } _%>
   <%_ })_%>
-  ...COLLECTION_STATE,
-  ...MODEL_STATE,
   newModel: {},
   editModel: {}
 }

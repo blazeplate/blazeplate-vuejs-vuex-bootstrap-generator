@@ -1,7 +1,9 @@
 import { COLLECTION_GETTERS, MODEL_GETTERS } from '@/store/lib/mixins'
 
 // <%= schema.label %> Module Getters
-const getters = {
+export default {
+  ...COLLECTION_GETTERS,
+  ...MODEL_GETTERS,
   <%_ schema.relations.forEach((rel) => { _%>
   <%_ if (rel.type === 'REF_BELONGS_TO') { _%>
   <%= rel.alias.identifier_plural %>: state => {
@@ -17,8 +19,6 @@ const getters = {
   },
   <%_ } _%>
   <%_ })_%>
-  ...COLLECTION_GETTERS,
-  ...MODEL_GETTERS,
   newModel: state => {
     return state.newModel
   },
@@ -26,5 +26,3 @@ const getters = {
     return state.editModel
   }
 }
-
-export default getters
