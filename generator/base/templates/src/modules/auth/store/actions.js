@@ -1,5 +1,4 @@
-import Router from '@/routers'
-import { $GET, $POST } from '@/store/lib/helpers'
+import axios from 'axios'
 import {
   LOGIN_ROUTE,
   REGISTER_ROUTE,
@@ -14,14 +13,27 @@ import {
 const actions = {
   // fetchUserProfile
   // Fetches a user's profiles form the server
-  fetchUserProfile ({ state, commit }) {
-    commit('logging_in', true)
+  fetchUserProfile ({ getters, commit }) {
     return new Promise((resolve, reject) => {
-      $GET(PROFILE_ROUTE, { token: state.token })
-      .then((json) => {
-        commit('current_user', json)
+      // Prevents unnecssary fetch on client start
+      if (!getters['token']) {
+        // commit('clear_token')
+        // commit('clear_current_user')
         commit('logging_in', false)
-        return resolve(json)
+        return resolve()
+      }
+
+      commit('logging_in', true)
+
+      axios.get(PROFILE_ROUTE, {
+        headers: {
+          authorization: getters['authorizationHeader']
+        }
+      })
+      .then(({ data }) => {
+        commit('current_user', data)
+        commit('logging_in', false)
+        return resolve(data)
       })
       .catch((err) => {
         commit('clear_token')
@@ -40,19 +52,32 @@ const actions = {
     commit('logging_in', true)
 
     // Assembles request payload
-    let { email, password, name, username } = state.register_user
+    let { email, username, password } = state.register_user
 
-    // Sends registration data to server
-    $POST(REGISTER_ROUTE, { body: { email, password, name, username } })
-    .then((json) => {
+    // Sends login data to server
+    axios({
+      method: 'post',
+      url: REGISTER_ROUTE,
+      data: {
+        email: email,
+        username: username,
+        password: password
+      }
+    })
+    .then(({ data }) => {
       commit('clear_register_user')
       commit('logging_in', false)
 
       // Shows REGISTER_SUCCESS_NOTIFICATION message
       commit('notification/add', REGISTER_SUCCESS_NOTIFICATION, { root: true })
 
+      // TODO - keep user logged in here
+
       // Redirects to login route
-      Router.push('/auth/login')
+      // TODO - emit event instead of routing in action
+      // eventBus.emit('authenticated', result)
+      // Router.push('/auth/login')
+      commit('logged_in', true)
     })
     .catch((err) => {
       // Shows REGISTER_ERROR_NOTIFICATION message
@@ -68,29 +93,35 @@ const actions = {
     // state.loggin_in = true
     commit('logging_in', true)
 
-    // Assembles request payload
-    let { username, password } = state.login_user
-
     // Sends login data to server
-    $POST(LOGIN_ROUTE, { body: { username, password } })
-    .then((json) => {
+    axios({
+      method: 'post',
+      url: LOGIN_ROUTE,
+      data: {
+        username: state.login_user.username,
+        password: state.login_user.password
+      }
+    })
+    .then(({ data }) => {
       // Changes loading state
       commit('logging_in', false)
 
-      // Clears state.login_user
-      commit('clear_login_user')
-
       // Updates store.token
-      commit('token', json.token)
+      commit('token', data.token)
+
+      // Pulls current user data from server response
+      const { username, email, admin, _id, roles } = data
+      commit('current_user', { username, email, admin, _id, roles })
 
       // Shows LOGIN_SUCCESS_NOTIFICATION message
       commit('notification/add', LOGIN_SUCCESS_NOTIFICATION, { root: true })
 
-      // Fetches user profile
-      dispatch('fetchUserProfile')
+      // Clears state.login_user
+      commit('clear_login_user')
 
       // Redirects to home route
-      Router.push('/')
+      // Router.push('/')
+      commit('logged_in', true)
     })
     .catch((err) => {
       // Shows LOGIN_ERROR_NOTIFICATION message
@@ -105,7 +136,8 @@ const actions = {
   logout ({ commit }) {
     commit('clear_token')
     commit('clear_current_user')
-    Router.push('/auth/login')
+    commit('logged_in', false)
+    // Router.push('/auth/login')
   }
 }
 
