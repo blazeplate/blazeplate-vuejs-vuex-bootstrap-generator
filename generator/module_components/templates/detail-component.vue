@@ -24,7 +24,7 @@
 
           <!-- Edit -->
           <b-button size="sm" variant="outline-warning" :to="'/<%= schema.identifier_plural %>/' + model._id + '/edit'">
-            <i class="fa fa-fw fa-pencil"></i>
+            <i class="fa fa-fw fa-edit"></i>
           </b-button>
 
           <!-- Destroy -->
