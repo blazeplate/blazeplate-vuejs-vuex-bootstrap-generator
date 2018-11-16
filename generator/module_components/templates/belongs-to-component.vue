@@ -25,8 +25,8 @@
             <%_ } else if (attr.datatype === 'BOOL') { _%>
             <td>
               <span>
-                <i class="fa fa-fw fa-check-square-o" v-if="model.<%= attr.identifier%>"></i>
-                <i class="fa fa-fw fa-square-o" v-if="!model.<%= attr.identifier%>"></i>
+                <i class="fa fa-fw fa-check-square" v-if="model.<%= attr.identifier%>"></i>
+                <i class="fa fa-fw fa-square" v-if="!model.<%= attr.identifier%>"></i>
               </span>
             </td>
             <%_ } else { _%>

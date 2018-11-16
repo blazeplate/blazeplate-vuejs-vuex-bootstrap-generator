@@ -32,8 +32,8 @@
             <%_ if (attr.datatype === 'BOOL') { _%>
             <span>
               <%= attr.label %>:
-              <i class="fa fa-fw fa-check-square-o" v-if="m.<%=attr.identifier%>"></i>
-              <i class="fa fa-fw fa-square-o" v-if="!m.<%=attr.identifier%>"></i>
+              <i class="fa fa-fw fa-check-square" v-if="m.<%=attr.identifier%>"></i>
+              <i class="fa fa-fw fa-square" v-if="!m.<%=attr.identifier%>"></i>
             </span>
             <%_ } else if (attr.datatype === 'STRING_ARRAY') { _%>
             <p class="card-text">{{m.<%= schema.attributes[index].identifier %>.join(', ')}}</p>
