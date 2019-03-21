@@ -1,23 +1,15 @@
 {
   "name": "@codotype/codotype-vuejs-generator",
   "version": "0.1.0",
-  "description": "A Codotype generator for MongoDB, Express.js, &amp; Vue.js with Vue Router, Vuex, &amp; Bootstrap",
+  "description": "A Codotype generator Vue.js, Vuex, Axios, &amp; Bootstrap",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
   },
-  "author": "",
+  "author": "Alexander Schwartzberg",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/codotype/codotype-vuejs-generator/issues"
   },
-  "homepage": "https://github.com/codotype/codotype-vuejs-bootstrap-generator#readme",
-  "dependencies": {
-    "@codotype/generator": "^0.4.0"
-  },
-  "devDependencies": {
-    "@codotype/blueprints": "^0.2.0",
-    "@codotype/runtime": "^0.5.0",
-    "@codotype/util": "^0.3.0"
-  }
+  "homepage": "https://github.com/codotype/codotype-vuejs-bootstrap-generator#readme"
 }
