@@ -1,21 +1,17 @@
 {
-  "name": "codotype-vuejs-vuex-bootstrap-generator",
+  "name": "@codotype/codotype-vuejs-generator",
   "version": "0.1.0",
-  "description": "A codotype generator for Vue.js, Vue Router, Vuex, &amp; Bootstrap",
+  "description": "A Codotype generator for MongoDB, Express.js, &amp; Vue.js with Vue Router, Vuex, &amp; Bootstrap",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/codotype/codotype-vuejs-vuex-bootstrap-generator.git"
-  },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/codotype/codotype-vuejs-vuex-generator/issues"
+    "url": "https://github.com/codotype/codotype-vuejs-generator/issues"
   },
-  "homepage": "https://github.com/codotype/codotype-vuejs-vuex-bootstrap-generator#readme",
+  "homepage": "https://github.com/codotype/codotype-vuejs-bootstrap-generator#readme",
   "dependencies": {
     "@codotype/generator": "^0.4.0"
   },
