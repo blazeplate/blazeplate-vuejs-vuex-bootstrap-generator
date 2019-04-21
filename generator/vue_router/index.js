@@ -1,4 +1,3 @@
-
 module.exports = {
   name: 'ModuleRouter',
   async write({ blueprint, configuration }) {
@@ -15,54 +14,43 @@ module.exports = {
       routeModules.push(`...${ s.class_name }Routes`)
     }
 
-    // Defaults
+    // Defaults module imports
     const defaultModules = [
       { class_name: 'Home', identifier: 'home' },
-      { class_name: 'Auth', identifier: 'auth' },
-      { class_name: 'User', identifier: 'user' }
+      { class_name: 'Auth', identifier: 'auth' }
     ]
 
-    // TODO - these should all be opt-in
+    // TODO - these should all be opt-in (??)
     defaultModules.forEach((m) => {
       buildImport(m)
       buildModule(m)
     })
 
     // src/store/index.js
-    // TODO - abstract into separate generator class definition
     blueprint.schemas.forEach((s) => {
-      if (s.identifier !== 'user') {
-        buildImport(s)
-        buildModule(s)
-      }
+      buildImport(s)
+      buildModule(s)
     })
 
-    await this.copyTemplate(
-      this.templatePath('router.js'),
-      this.destinationPath('src/routers/index.js'),
-      {
+    // Renders the src/routers/index.js
+    await this.renderComponent({
+      src: 'router.js',
+      dest: 'src/routers/index.js',
+      data: {
         routeImports: routeImports.join("\n"),
         routeModules: routeModules.join(",\n    ")
       }
-    );
+    });
+  },
+  async forEachSchema({ schema, configuration }) {
+    // Isolates API Actions metadata
+    let api_actions = configuration.api_actions[schema.identifier] || []
 
-    // Iterates over each schema in the this.options.build.blueprint.schemas array
-    // TODO - encapsulate this in a call for forEachSchema
-    for (var i = blueprint.schemas.length - 1; i >= 0; i--) {
-      const schema = blueprint.schemas[i]
-
-      // Isolates API Actions metadata
-      let api_actions = configuration.api_actions[schema.identifier] || []
-      // if (!api_actions[0]) { api_actions = [] }
-
-      // src/routers/resource.js
-      await this.copyTemplate(
-        this.templatePath('module-router.js'),
-        this.destinationPath('src/modules/' + schema.identifier + '/router.js'),
-        { schema, api_actions }
-      )
-
-    }
-    // console.log('WROTE MODULE STORE')
+    // src/routers/resource.js
+    await this.renderComponent({
+      src: 'module-router.js',
+      dest: 'src/modules/' + schema.identifier + '/router.js',
+      data: { schema, api_actions }
+    })
   }
 }

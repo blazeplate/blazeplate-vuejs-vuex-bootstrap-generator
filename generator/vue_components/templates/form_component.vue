@@ -36,7 +36,7 @@
           placeholder="<%= attr.label %>"
           :tags.sync="model.<%=attr.identifier%>"
         />
-      <%_ } else if ([DATATYPE_INTEGER, DATATYPE_FLOAT, DATATYPE_DOUBLE].includes(attr.datatype)) { _%>
+      <%_ } else if ([DATATYPE_INTEGER, DATATYPE_FLOAT].includes(attr.datatype)) { _%>
         <b-form-input
           type="number"
           id="<%= attr.identifier %>-input"
