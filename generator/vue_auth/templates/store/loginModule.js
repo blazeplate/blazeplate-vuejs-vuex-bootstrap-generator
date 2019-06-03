@@ -2,19 +2,20 @@ import axios from 'axios'
 import router from '@/routers'
 import { LOGIN_ROUTE } from './constants'
 
-import LOADING_MODULE from '@/store/lib/loadingModule'
-
 export default {
-  namespaced: true,
-  modules: {
-    loading: LOADING_MODULE()
+  state: {
+    loadingLogin: false
   },
   mutations: {
-    token (state, token) { state.token = token }
+    token (state, token) { state.token = token },
+    loadingLogin (state, loading) { state.loadingLogin = loading }
+  },
+  getters: {
+    loadingLogin: state => { return state.loadingLogin },
   },
   actions: {
-    submit ({ commit, state, dispatch }, user) {
-      commit('loading', true)
+    submitLogin ({ commit, state, dispatch }, user) {
+      commit('loadingLogin', true)
 
       // Authenticates user with server
       return axios({
@@ -27,14 +28,14 @@ export default {
       })
       .then(({ data }) => {
         // Changes loading state
-        commit('loading', false)
+        commit('loadingLogin', false)
 
         // Updates store.token
-        commit('auth/token', data.token, { root: true })
+        commit('token', data.token)
 
         // Pulls current user data from server response
         const { email, admin, _id, role } = data
-        commit('auth/current_user', { email, admin, _id, role }, { root: true })
+        commit('current_user', { email, admin, _id, role })
 
         // Shows success notification
         dispatch('toast/success', { message: 'Successfully authenticated' }, { root: true })
@@ -43,8 +44,8 @@ export default {
         router.push('/')
       })
       .catch((err) => {
-        commit('loading', false)
-        dispatch('toast/error', { message: err.message }, { root: true })
+        commit('loadingLogin', false)
+        dispatch('toast/error', { message: err.response.data.message }, { root: true })
         throw err
       })
     }

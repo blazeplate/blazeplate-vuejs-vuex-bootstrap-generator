@@ -1,20 +1,16 @@
 import axios from 'axios'
 import router from '@/routers'
 import { RESET_PASSWORD_ROUTE } from './constants'
-import LOADING_MODULE from '@/store/lib/loadingModule'
 
 // TODO - needs error handling!!
 export default {
-  namespaced: true,
-  modules: {
-    loading: LOADING_MODULE()
-  },
   state: {
-    password: 'reverse',
-    password_verify: 'reverse',
-    password_reset_token: '',
+    doneResettingPassword: false,
     error: '',
-    done: false
+    loadingPasswordReset: false,
+    password: 'reverse',
+    password_reset_token: '',
+    password_verify: 'reverse',
   },
   getters: {
     password: state => state.password,
@@ -22,18 +18,19 @@ export default {
     verified: state => !(state.password && state.password_verify && state.password === state.password_verify),
     password_reset_token: state => state.password_reset_token,
     error: state => state.error,
-    done: state => state.done
+    doneResettingPassword: state => state.doneResettingPassword
   },
   mutations: {
     password (state, password) { state.password = password },
     password_verify (state, password_verify) { state.password_verify = password_verify },
     password_reset_token (state, password_reset_token) { state.password_reset_token = password_reset_token },
     error (state, error) { state.error = error },
-    done (state, done) { state.done = done }
+    doneResettingPassword (state, done) { state.doneResettingPassword = done },
+    loadingPasswordReset (state, loading) { state.loadingPasswordReset = loading }
   },
   actions: {
     submit ({ state, commit }) {
-      commit('loading', true)
+      commit('loadingPasswordReset', true)
 
       // Handles resetting user password
       axios({
@@ -45,14 +42,14 @@ export default {
         }
       })
       .then(() => {
-        commit('done', true)
-        commit('loading', false)
+        commit('doneResettingPassword', true)
+        commit('loadingPasswordReset', false)
         commit('password', '')
         commit('password_verify', '')
         router.push('/auth/login')
       })
       .catch((err) => {
-        commit('loading', false)
+        commit('loadingPasswordReset', false)
         commit('error', err.message)
       })
     }

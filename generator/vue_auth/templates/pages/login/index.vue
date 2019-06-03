@@ -78,10 +78,10 @@ export default {
     }
   },
   computed: mapGetters({
-    fetching: 'auth/login/loading'
+    fetching: 'auth/loadingLogin'
   }),
   methods: mapActions({
-    login: 'auth/login/submit'
+    login: 'auth/submitLogin'
   })
 }
 </script>

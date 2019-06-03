@@ -3,7 +3,7 @@
     <b-container>
       <Loading v-if="loading" />
       <b-row class="justify-content-center">
-        <b-col md="8" sm="8">
+        <b-col sm="12" md="8">
           <b-card no-body class="mx-4">
             <b-card-body class="p-4">
               <b-form>
@@ -89,6 +89,9 @@ export default {
     return {
       user: {
         email: '',
+        <%_ userSchema.attributes.forEach((r) => { _%>
+        <%= r.identifier %>: '',
+        <%_ }) _%>
         password: '',
         passwordverify: ''
       }

@@ -1,15 +1,11 @@
 import axios from 'axios'
 import { RESET_ROUTE } from './constants'
-import LOADING_MODULE from '@/store/lib/loadingModule'
 
 export default {
-  namespaced: true,
-  modules: {
-    loading: LOADING_MODULE()
-  },
   state: {
     email: '',
-    done: false
+    done: false,
+    loadingForgotPassword: false
   },
   getters: {
     email: state => state.email,
@@ -17,7 +13,8 @@ export default {
   },
   mutations: {
     email (state, email) { state.email = email },
-    done (state, done) { state.done = done }
+    done (state, done) { state.done = done },
+    loadingForgotPassword (state, loading) { state.loadingForgotPassword = loading }
   },
   actions: {
     resetForm ({ commit }) {
@@ -25,7 +22,7 @@ export default {
       commit('done', false)
     },
     submit ({ state, commit }) {
-      commit('loading', true)
+      commit('loadingForgotPassword', true)
 
       // Sends login data to server
       // Handles user.password_reset_token creation
@@ -39,10 +36,10 @@ export default {
       })
       .then(() => {
         commit('done', true)
-        commit('loading', false)
+        commit('loadingForgotPassword', false)
       })
       .catch((err) => {
-        commit('loading', false)
+        commit('loadingForgotPassword', false)
         // commit('error', err.message)
         // TODO - integrate with TOAST module
       })

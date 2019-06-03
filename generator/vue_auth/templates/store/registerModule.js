@@ -4,15 +4,18 @@ import LOADING_MODULE from '@/store/lib/loadingModule'
 import { REGISTER_ROUTE } from './constants'
 
 export default {
-  modules: {
-    loading: LOADING_MODULE()
+  state: {
+    loadingRegister: false
+  },
+  mutations: {
+    loadingRegister (state, loading) { state.loadingRegister = loading },
   },
   actions: {
-    register ({ state, commit, dispatch }, user) {
-      commit('loading', true)
+    register ({ state, commit, dispatch }, registerUser) {
+      commit('loadingRegister', true)
 
       // Assembles request payload
-      let { <%= inlineDeconstruction %>, password } = state.user
+      let { <%= inlineDeconstruction %>, password } = registerUser
 
       // Sends registration data to server
       axios({
@@ -22,7 +25,7 @@ export default {
       })
       .then(() => {
         // Stops loading spinner
-        commit('loading', false)
+        commit('loadingRegister', false)
 
         // Shows success notification
         dispatch('toast/success', { message: 'Successfully registered' }, { root: true })
@@ -32,7 +35,7 @@ export default {
       })
       .catch(({ response }) => {
         // Stops loading spinner
-        commit('loading', false)
+        commit('loadingRegister', false)
 
         // Shows error notification
         dispatch('toast/error', { message: response.data.message }, { root: true })
