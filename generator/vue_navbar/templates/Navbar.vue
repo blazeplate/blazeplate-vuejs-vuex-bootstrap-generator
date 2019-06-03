@@ -8,9 +8,9 @@
     <b-collapse is-nav id="nav_collapse">
 
       <!-- Navbar Links -->
-      <b-navbar-nav class="mr-auto">
+      <b-navbar-nav class="mr-auto" v-if="isAuthenticated">
         <%_ headerLinks.forEach((link) => { _%>
-        <b-nav-item :disabled="!isAuthenticated" to="<%= link.href %>"><%= link.text %></b-nav-item>
+        <b-nav-item to="<%= link.href %>"><%= link.text %></b-nav-item>
         <%_ }) _%>
       </b-navbar-nav>
 
@@ -56,7 +56,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Navbar',
   computed: mapGetters({
-    loading: 'auth/profile/loading',
+    loading: 'auth/loadingProfile',
     isAuthenticated: 'auth/is_authenticated',
     currentUser: 'auth/current_user',
     isAdmin: 'auth/isAdmin'
