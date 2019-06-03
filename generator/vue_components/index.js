@@ -47,39 +47,38 @@ module.exports = {
         })
       })
     }
+  },
+  forEachRelation({ schema, relation }) {
 
     // Generate relational components
     // TODO - abstract this into a separate component, maybe
-    let rel;
     let related_schema;
     let related_api_actions;
-    for (var j = schema.relations.length - 1; j >= 0; j--) {
-      // Assign local values
-      rel = schema.relations[j]
-      related_schema = blueprint.schemas.find(s => s.id === rel.related_schema_id)
-      related_api_actions = configuration.api_actions[related_schema.identifier] || []
 
-      // TODO - add HAS_MANY UI
-      // TODO - replace these strings with relational constants pulled from @codotype/types
-      if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) {
-        await this.renderComponent({
-          src: 'belongs-to-component.vue',
-          dest: moduleComponentsDest + 'Related' + rel.alias.class_name + 'Detail.vue',
-          data: { schema, related_schema, rel, api_actions: related_api_actions }
-        })
-      } else if (rel.type === 'HAS_MANY') {
-        await this.renderComponent({
-          src: 'owns-many-component.vue',
-          dest: moduleComponentsDest + 'Related' + rel.alias.class_name_plural + 'List.vue', // TODO - RENAME THIS
-          data: { schema, related_schema, rel, api_actions: related_api_actions }
-        })
-      } else if (rel.type === 'REF_BELONGS_TO') {
-        await this.renderComponent({
-          src: 'owns-many-component.vue',
-          dest: moduleComponentsDest + 'Related' + rel.alias.class_name_plural + 'List.vue', // TODO - RENAME THIS
-          data: { schema, related_schema, rel, api_actions: related_api_actions }
-        })
-      }
+    // Assign local values
+    related_schema = blueprint.schemas.find(s => s.id === relation.related_schema_id)
+    related_api_actions = configuration.api_actions[related_schema.identifier] || []
+
+    // TODO - add HAS_MANY UI
+    // TODO - replace these strings with relational constants pulled from @codotype/types
+    if (['BELONGS_TO', 'HAS_ONE'].includes(relation.type)) {
+      await this.renderComponent({
+        src: 'belongs-to-component.vue',
+        dest: moduleComponentsDest + 'Related' + relation.alias.class_name + 'Detail.vue',
+        data: { schema, related_schema, rel, api_actions: related_api_actions }
+      })
+    } else if (relation.type === 'HAS_MANY') {
+      await this.renderComponent({
+        src: 'owns-many-component.vue',
+        dest: moduleComponentsDest + 'Related' + relation.alias.class_name_plural + 'List.vue', // TODO - RENAME THIS
+        data: { schema, related_schema, rel, api_actions: related_api_actions }
+      })
+    } else if (relation.type === 'REF_BELONGS_TO') {
+      await this.renderComponent({
+        src: 'owns-many-component.vue',
+        dest: moduleComponentsDest + 'Related' + relation.alias.class_name_plural + 'List.vue', // TODO - RENAME THIS
+        data: { schema, related_schema, rel, api_actions: related_api_actions }
+      })
     }
 
   }

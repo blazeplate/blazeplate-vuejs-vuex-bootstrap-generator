@@ -14,7 +14,7 @@ export default {
     Navbar
   },
   created () {
-    this.$store.dispatch('auth/profile/fetch') // Authenticates current user on application start
+    this.$store.dispatch('auth/fetchProfile') // Authenticates current user on application start
   },
   metaInfo: {
     title: 'Loading...', // set a title

@@ -12,7 +12,7 @@ const requireAuth = (to, from, next) => {
     next()
   // User has a token, has not yet authenticated with it
   } else {
-    store.dispatch('auth/fetchUserProfile')
+    store.dispatch('auth/fetchProfile')
     .then(() => { next() })
     .catch(() => {
       next({ path: '/auth/login' })
@@ -34,7 +34,7 @@ const requireAdmin = (to, from, next) => {
   } else if (!token) {
     next({ path: '/auth/login' })
   } else {
-    store.dispatch('auth/fetchUserProfile')
+    store.dispatch('auth/fetchProfile')
     .then(() => {
       const user = store.getters['auth/current_user']
       if (user.admin) return next()
@@ -61,7 +61,7 @@ const requireRole = (role) => {
     } else if (!token) {
       next({ path: '/auth/login' })
     } else {
-      store.dispatch('auth/fetchUserProfile')
+      store.dispatch('auth/fetchProfile')
       .then(() => {
         const user = store.getters['auth/current_user']
         if (user.role === role) return next()
