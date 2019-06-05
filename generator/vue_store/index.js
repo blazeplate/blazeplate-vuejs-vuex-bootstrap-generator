@@ -27,25 +27,21 @@ module.exports = {
       dest: 'src/modules/' + schema.identifier + '/store/constants.js',
       data: { schema: schema, newModel: JSON.stringify(newModel, null, 2) }
     });
-
+  },
+  async forEachRelation({ schema, relation }) {
     // Iterates over each relation, creates associatd module
-    for (var i = schema.relations.length - 1; i >= 0; i--) {
-      let rel = schema.relations[i]
-
-      let pluralization
-      if (['BELONGS_TO', 'HAS_ONE'].includes(rel.type)) {
-        pluralization = rel.alias.class_name
-      } else {
-        pluralization =  rel.alias.class_name_plural
-      }
-
-      await this.renderComponent({
-        src: 'relationModule.js',
-        dest: 'src/modules/' + schema.identifier + '/store/related' + pluralization + 'Module.js',
-        data: { schema, rel }
-      });
+    let pluralization
+    if (['BELONGS_TO', 'HAS_ONE'].includes(relation.type)) {
+      pluralization = relation.alias.class_name
+    } else {
+      pluralization =  relation.alias.class_name_plural
     }
 
+    await this.renderComponent({
+      src: 'relationModule.js',
+      dest: 'src/modules/' + schema.identifier + '/store/related' + pluralization + 'Module.js',
+      data: { schema, relation }
+    });
   }
 
 };
